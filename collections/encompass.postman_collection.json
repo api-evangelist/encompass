@@ -1,0 +1,294 @@
+{
+  "info": {
+    "name": "Encompass Developer Connect API",
+    "description": "Encompass Developer Connect is the ICE Mortgage Technology (formerly Ellie Mae) REST API platform for the Encompass loan origination system. Configure, customize, and administer loans, pipeline, borrower pairs, contacts, eFolder documents/attachments, milestones, conditions, users, and webhooks. Base host: https://api.elliemae.com. All requests require an OAuth 2.0 bearer token (POST /oauth2/v1/token) scoped to an Encompass instance; access is partner/tenant-gated and persona-scoped. Versioning is path-based (v3 current, v1 deprecated).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      { "key": "token", "value": "{{accessToken}}", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://api.elliemae.com", "type": "string" },
+    { "key": "accessToken", "value": "", "type": "string" },
+    { "key": "loanId", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Get access token",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/x-www-form-urlencoded" }],
+            "body": { "mode": "urlencoded", "urlencoded": [
+              { "key": "grant_type", "value": "client_credentials" },
+              { "key": "client_id", "value": "" },
+              { "key": "client_secret", "value": "" },
+              { "key": "scope", "value": "" }
+            ] },
+            "url": { "raw": "{{baseUrl}}/oauth2/v1/token", "host": ["{{baseUrl}}"], "path": ["oauth2", "v1", "token"] },
+            "description": "Exchange client credentials for a bearer access token scoped to an Encompass instance."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Loan Management",
+      "item": [
+        {
+          "name": "Create a loan",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/encompass/v3/loans", "host": ["{{baseUrl}}"], "path": ["encompass", "v3", "loans"] },
+            "description": "Create a new Encompass loan file."
+          }
+        },
+        {
+          "name": "Retrieve a loan",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/encompass/v3/loans/:loanId", "host": ["{{baseUrl}}"], "path": ["encompass", "v3", "loans", ":loanId"], "variable": [{ "key": "loanId", "value": "{{loanId}}" }] },
+            "description": "Retrieve a loan file and its data by loan GUID."
+          }
+        },
+        {
+          "name": "Update a loan",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/encompass/v3/loans/:loanId", "host": ["{{baseUrl}}"], "path": ["encompass", "v3", "loans", ":loanId"], "variable": [{ "key": "loanId", "value": "{{loanId}}" }] },
+            "description": "Write values to loan data fields."
+          }
+        },
+        {
+          "name": "Delete a loan",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/encompass/v3/loans/:loanId", "host": ["{{baseUrl}}"], "path": ["encompass", "v3", "loans", ":loanId"], "variable": [{ "key": "loanId", "value": "{{loanId}}" }] },
+            "description": "Delete a loan file."
+          }
+        },
+        {
+          "name": "Move loan to folder",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{ \"loanFolder\": \"\" }" },
+            "url": { "raw": "{{baseUrl}}/encompass/v1/loans/:loanId/moveToFolder", "host": ["{{baseUrl}}"], "path": ["encompass", "v1", "loans", ":loanId", "moveToFolder"], "variable": [{ "key": "loanId", "value": "{{loanId}}" }] },
+            "description": "Move a loan file into a different loan folder."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Loan Pipeline",
+      "item": [
+        {
+          "name": "Query the pipeline",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"filter\": {\n    \"canonicalName\": \"Loan.LoanFolder\",\n    \"matchType\": \"exact\",\n    \"value\": \"My Pipeline\"\n  },\n  \"fields\": [\"Loan.GUID\", \"Loan.LoanNumber\"]\n}" },
+            "url": { "raw": "{{baseUrl}}/encompass/v3/loanPipeline", "host": ["{{baseUrl}}"], "path": ["encompass", "v3", "loanPipeline"] },
+            "description": "Search for loans and loan fields on the pipeline with filter criteria."
+          }
+        },
+        {
+          "name": "Create pipeline cursor",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/encompass/v3/loanPipeline/cursor", "host": ["{{baseUrl}}"], "path": ["encompass", "v3", "loanPipeline", "cursor"] },
+            "description": "Create a cursor to page through a large pipeline report."
+          }
+        },
+        {
+          "name": "Get canonical names",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/encompass/v3/loanPipeline/canonicalNames", "host": ["{{baseUrl}}"], "path": ["encompass", "v3", "loanPipeline", "canonicalNames"] },
+            "description": "Retrieve the list of canonical (queryable) field names."
+          }
+        }
+      ]
+    },
+    {
+      "name": "eFolder",
+      "item": [
+        {
+          "name": "List documents",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/encompass/v3/loans/:loanId/documents", "host": ["{{baseUrl}}"], "path": ["encompass", "v3", "loans", ":loanId", "documents"], "variable": [{ "key": "loanId", "value": "{{loanId}}" }] },
+            "description": "List the documents (placeholders) in a loan's eFolder."
+          }
+        },
+        {
+          "name": "List attachments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/encompass/v3/loans/:loanId/attachments", "host": ["{{baseUrl}}"], "path": ["encompass", "v3", "loans", ":loanId", "attachments"], "variable": [{ "key": "loanId", "value": "{{loanId}}" }] },
+            "description": "List the attachments in a loan's eFolder (v3 returns cloud-storage URLs)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Milestones",
+      "item": [
+        {
+          "name": "List milestones",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/encompass/v3/loans/:loanId/milestones", "host": ["{{baseUrl}}"], "path": ["encompass", "v3", "loans", ":loanId", "milestones"], "variable": [{ "key": "loanId", "value": "{{loanId}}" }] },
+            "description": "List the milestones marking a loan's progress (modeled endpoint)."
+          }
+        },
+        {
+          "name": "List associates",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/encompass/v3/loans/:loanId/associates", "host": ["{{baseUrl}}"], "path": ["encompass", "v3", "loans", ":loanId", "associates"], "variable": [{ "key": "loanId", "value": "{{loanId}}" }] },
+            "description": "List the associates assigned to a loan's milestones (modeled endpoint)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Conditions",
+      "item": [
+        {
+          "name": "List underwriting conditions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/encompass/v1/loans/:loanId/conditions/underwriting", "host": ["{{baseUrl}}"], "path": ["encompass", "v1", "loans", ":loanId", "conditions", "underwriting"], "variable": [{ "key": "loanId", "value": "{{loanId}}" }] },
+            "description": "List the underwriting conditions tracked on a loan (modeled endpoint)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contacts",
+      "item": [
+        {
+          "name": "List borrower contacts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/encompass/v1/borrowerContacts", "host": ["{{baseUrl}}"], "path": ["encompass", "v1", "borrowerContacts"] },
+            "description": "List consumer (borrower) contacts (modeled endpoint)."
+          }
+        },
+        {
+          "name": "List business contacts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/encompass/v1/businessContacts", "host": ["{{baseUrl}}"], "path": ["encompass", "v1", "businessContacts"] },
+            "description": "List business (service provider / vendor) contacts (modeled endpoint)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "List users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/encompass/v1/users", "host": ["{{baseUrl}}"], "path": ["encompass", "v1", "users"] },
+            "description": "List the internal Encompass users of the instance (modeled endpoint)."
+          }
+        },
+        {
+          "name": "Retrieve a user",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/encompass/v1/users/:userId", "host": ["{{baseUrl}}"], "path": ["encompass", "v1", "users", ":userId"], "variable": [{ "key": "userId", "value": "" }] },
+            "description": "Retrieve an Encompass user by ID (modeled endpoint)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Webhooks",
+      "item": [
+        {
+          "name": "List subscriptions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/webhook/v1/subscriptions", "host": ["{{baseUrl}}"], "path": ["webhook", "v1", "subscriptions"] },
+            "description": "List all webhook subscriptions for the instance."
+          }
+        },
+        {
+          "name": "Create a subscription",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"resource\": \"Loan\",\n  \"events\": [\"created\", \"updated\"],\n  \"endpoint\": \"https://example.com/webhook\"\n}" },
+            "url": { "raw": "{{baseUrl}}/webhook/v1/subscriptions", "host": ["{{baseUrl}}"], "path": ["webhook", "v1", "subscriptions"] },
+            "description": "Subscribe to resource events delivered to an HTTPS endpoint."
+          }
+        },
+        {
+          "name": "Get a subscription",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/webhook/v1/subscriptions/:id", "host": ["{{baseUrl}}"], "path": ["webhook", "v1", "subscriptions", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Retrieve a webhook subscription by ID."
+          }
+        },
+        {
+          "name": "Delete a subscription",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/webhook/v1/subscriptions/:id", "host": ["{{baseUrl}}"], "path": ["webhook", "v1", "subscriptions", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Delete a webhook subscription."
+          }
+        },
+        {
+          "name": "List resources",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/webhook/v1/resources", "host": ["{{baseUrl}}"], "path": ["webhook", "v1", "resources"] },
+            "description": "List the resource types available for webhook subscriptions."
+          }
+        },
+        {
+          "name": "List events",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/webhook/v1/events", "host": ["{{baseUrl}}"], "path": ["webhook", "v1", "events"] },
+            "description": "Query the history of webhook events delivered to your subscriptions."
+          }
+        }
+      ]
+    }
+  ]
+}

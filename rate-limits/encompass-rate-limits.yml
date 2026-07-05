@@ -1,0 +1,69 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Encompass
+providerId: encompass
+created: '2026-07-04'
+modified: '2026-07-04'
+reconciled: false
+tags:
+- Mortgage
+- Loan Origination
+- LOS
+- ICE Mortgage Technology
+- Rate Limiting
+- Quotas
+description: >-
+  ICE Mortgage Technology enforces throttling on the Encompass Developer Connect APIs,
+  but the specific numeric limits are not published on the public reference and are
+  governed per Encompass instance / integration. In practice callers should expect
+  per-instance request-rate throttling (HTTP 429 with Retry-After), plus resource-lock
+  contention on loan writes (Encompass serializes concurrent modifications of the same
+  loan via a resource-lock mechanism). Bulk reads should use the Loan Pipeline cursor
+  endpoints with pagination rather than tight polling, and event-driven integrations
+  should prefer webhooks over polling the pipeline. Deprecated v1 endpoints may carry
+  tighter or sunsetting limits than their v3 replacements.
+notes: >-
+  Exact per-minute / per-day request caps are not documented publicly as of the review
+  date; verify current limits with ICE Mortgage Technology for your instance. Values
+  below are modeled from documented behavior (429 throttling, resource locks, cursor
+  pagination), not published numbers.
+sources:
+- https://developer.icemortgagetechnology.com/developer-connect/reference/overview-2
+- https://developer.icemortgagetechnology.com/developer-connect/reference/loan-pipeline
+- https://developer.icemortgagetechnology.com/developer-connect/docs/authentication
+responseCodes:
+  throttled: 429
+limits:
+- name: API Request Rate
+  scope: instance
+  metric: requests
+  limit: not published
+  notes: Per-instance throttling returns HTTP 429; honor Retry-After and back off.
+- name: Loan Write Concurrency
+  scope: loan
+  metric: concurrent writers
+  limit: resource-lock enforced
+  notes: Encompass serializes concurrent modifications to the same loan via resource locks.
+- name: Pipeline Result Paging
+  scope: instance
+  metric: rows per request
+  limit: cursor/limit governed
+  notes: Use loanPipeline cursor + start/limit to page large result sets instead of large single pulls.
+- name: Token Lifetime
+  scope: application
+  metric: access token TTL
+  limit: expires_in (short-lived)
+  notes: OAuth 2.0 access tokens are short-lived; refresh/re-request before expiry.
+policies:
+- name: Backoff Strategy
+  description: On 429, honor Retry-After and apply exponential backoff with jitter.
+- name: Prefer Webhooks Over Polling
+  description: Subscribe to resource events (loan.created / updated / deleted / locked / unlocked) instead of polling the pipeline for changes.
+- name: Respect Resource Locks
+  description: Acquire and release loan resource locks around write operations to avoid contention and lost updates.
+- name: Migrate Off v1
+  description: Prefer v3 endpoints; deprecated v1 endpoints may be sunset and can carry tighter limits.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

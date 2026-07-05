@@ -1,0 +1,235 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Encompass Developer Connect API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{accessToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": { "name": "Authentication", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get access token.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elliemae.com/oauth2/v1/token",
+            "body": { "type": "form", "data": "grant_type=client_credentials&client_id=&client_secret=&scope=" }
+          },
+          "docs": "Exchange client credentials for a bearer access token scoped to an Encompass instance."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Loan Management", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Create a loan.", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.elliemae.com/encompass/v3/loans", "body": { "type": "json", "data": "{}" } },
+          "docs": "Create a new Encompass loan file."
+        },
+        {
+          "info": { "name": "Retrieve a loan.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elliemae.com/encompass/v3/loans/:loanId",
+            "params": [{ "name": "loanId", "value": "", "type": "path", "description": "The loan GUID." }]
+          },
+          "docs": "Retrieve a loan file and its data by loan GUID."
+        },
+        {
+          "info": { "name": "Update a loan.", "type": "http" },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.elliemae.com/encompass/v3/loans/:loanId",
+            "params": [{ "name": "loanId", "value": "", "type": "path", "description": "The loan GUID." }],
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Write values to loan data fields."
+        },
+        {
+          "info": { "name": "Delete a loan.", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.elliemae.com/encompass/v3/loans/:loanId",
+            "params": [{ "name": "loanId", "value": "", "type": "path", "description": "The loan GUID." }]
+          },
+          "docs": "Delete a loan file."
+        },
+        {
+          "info": { "name": "Move loan to folder.", "type": "http" },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.elliemae.com/encompass/v1/loans/:loanId/moveToFolder",
+            "params": [{ "name": "loanId", "value": "", "type": "path", "description": "The loan GUID." }],
+            "body": { "type": "json", "data": "{ \"loanFolder\": \"\" }" }
+          },
+          "docs": "Move a loan file into a different loan folder."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Loan Pipeline", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Query the pipeline.", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.elliemae.com/encompass/v3/loanPipeline", "body": { "type": "json", "data": "{\n  \"filter\": { \"canonicalName\": \"Loan.LoanFolder\", \"matchType\": \"exact\", \"value\": \"My Pipeline\" },\n  \"fields\": [\"Loan.GUID\", \"Loan.LoanNumber\"]\n}" } },
+          "docs": "Search for loans and loan fields on the pipeline with filter criteria."
+        },
+        {
+          "info": { "name": "Create pipeline cursor.", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.elliemae.com/encompass/v3/loanPipeline/cursor", "body": { "type": "json", "data": "{}" } },
+          "docs": "Create a cursor to page through a large pipeline report."
+        },
+        {
+          "info": { "name": "Get canonical names.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.elliemae.com/encompass/v3/loanPipeline/canonicalNames" },
+          "docs": "Retrieve the list of canonical (queryable) field names."
+        }
+      ]
+    },
+    {
+      "info": { "name": "eFolder", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List documents.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elliemae.com/encompass/v3/loans/:loanId/documents",
+            "params": [{ "name": "loanId", "value": "", "type": "path", "description": "The loan GUID." }]
+          },
+          "docs": "List the documents (placeholders) in a loan's eFolder."
+        },
+        {
+          "info": { "name": "List attachments.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elliemae.com/encompass/v3/loans/:loanId/attachments",
+            "params": [{ "name": "loanId", "value": "", "type": "path", "description": "The loan GUID." }]
+          },
+          "docs": "List the attachments in a loan's eFolder (v3 returns cloud-storage URLs)."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Milestones", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List milestones.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elliemae.com/encompass/v3/loans/:loanId/milestones",
+            "params": [{ "name": "loanId", "value": "", "type": "path", "description": "The loan GUID." }]
+          },
+          "docs": "List the milestones marking a loan's progress (modeled endpoint)."
+        },
+        {
+          "info": { "name": "List associates.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elliemae.com/encompass/v3/loans/:loanId/associates",
+            "params": [{ "name": "loanId", "value": "", "type": "path", "description": "The loan GUID." }]
+          },
+          "docs": "List the associates assigned to a loan's milestones (modeled endpoint)."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Conditions", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List underwriting conditions.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elliemae.com/encompass/v1/loans/:loanId/conditions/underwriting",
+            "params": [{ "name": "loanId", "value": "", "type": "path", "description": "The loan GUID." }]
+          },
+          "docs": "List the underwriting conditions tracked on a loan (modeled endpoint)."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Contacts", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List borrower contacts.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.elliemae.com/encompass/v1/borrowerContacts" },
+          "docs": "List consumer (borrower) contacts (modeled endpoint)."
+        },
+        {
+          "info": { "name": "List business contacts.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.elliemae.com/encompass/v1/businessContacts" },
+          "docs": "List business (service provider / vendor) contacts (modeled endpoint)."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Users", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List users.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.elliemae.com/encompass/v1/users" },
+          "docs": "List the internal Encompass users of the instance (modeled endpoint)."
+        },
+        {
+          "info": { "name": "Retrieve a user.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elliemae.com/encompass/v1/users/:userId",
+            "params": [{ "name": "userId", "value": "", "type": "path", "description": "The Encompass user identifier." }]
+          },
+          "docs": "Retrieve an Encompass user by ID (modeled endpoint)."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Webhooks", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List subscriptions.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.elliemae.com/webhook/v1/subscriptions" },
+          "docs": "List all webhook subscriptions for the instance."
+        },
+        {
+          "info": { "name": "Create a subscription.", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.elliemae.com/webhook/v1/subscriptions", "body": { "type": "json", "data": "{\n  \"resource\": \"Loan\",\n  \"events\": [\"created\", \"updated\"],\n  \"endpoint\": \"https://example.com/webhook\"\n}" } },
+          "docs": "Subscribe to resource events delivered to an HTTPS endpoint."
+        },
+        {
+          "info": { "name": "Get a subscription.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elliemae.com/webhook/v1/subscriptions/:id",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The subscription identifier." }]
+          },
+          "docs": "Retrieve a webhook subscription by ID."
+        },
+        {
+          "info": { "name": "Delete a subscription.", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.elliemae.com/webhook/v1/subscriptions/:id",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The subscription identifier." }]
+          },
+          "docs": "Delete a webhook subscription."
+        },
+        {
+          "info": { "name": "List resources.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.elliemae.com/webhook/v1/resources" },
+          "docs": "List the resource types available for webhook subscriptions."
+        },
+        {
+          "info": { "name": "List events.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.elliemae.com/webhook/v1/events" },
+          "docs": "Query the history of webhook events delivered to your subscriptions."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

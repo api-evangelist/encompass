@@ -1,0 +1,85 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Encompass
+providerId: encompass
+created: '2026-07-04'
+modified: '2026-07-04'
+reconciled: false
+tags:
+- Mortgage
+- Loan Origination
+- LOS
+- ICE Mortgage Technology
+- Ellie Mae
+- Plans
+description: >-
+  Encompass Developer Connect does not publish a public, self-service, tiered price
+  list. Encompass is an enterprise mortgage loan origination system sold to lenders,
+  banks, and credit unions, and API access is bundled into the commercial Encompass
+  relationship rather than sold as a standalone metered API product. To build on the
+  APIs a developer needs an Encompass instance (or a partner arrangement with a lender
+  who has one); OAuth credentials / API keys are then provisioned in the developer
+  portal by an Encompass super administrator. Partners typically join through the ICE
+  Mortgage Technology partner program. Pricing is quote-based and negotiated with ICE
+  Mortgage Technology sales.
+notes: >-
+  No public per-call or per-tier pricing is documented as of the review date. Treat the
+  plans below as access models, not a rate card. Confirm current commercial terms,
+  partner-program fees, and any transaction-based charges directly with ICE Mortgage
+  Technology.
+sources:
+- https://developer.icemortgagetechnology.com/developer-connect/docs/welcome
+- https://developer.icemortgagetechnology.com/developer-connect/docs/get-an-api-key
+- https://www.icemortgagetechnology.com/
+plans:
+- id: encompass-lender-instance
+  name: Lender / Enterprise Instance
+  type: enterprise
+  description: >-
+    API access bundled with a commercial Encompass loan origination system license.
+    A lender's Encompass super administrator provisions OAuth Client ID / secret and
+    distributes the API key; the persona assigned to those credentials governs which
+    data and features the API can reach.
+  entries:
+  - label: Encompass Commercial Agreement
+    name: encompass_commercial_agreement
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales (bundled with Encompass license)
+    userMultiplied: false
+  elements:
+  - name: All Developer Connect REST APIs
+  - name: Persona-Scoped Access
+  - name: Webhooks
+  - name: Instance-Provisioned OAuth Credentials
+- id: encompass-partner
+  name: ICE Mortgage Technology Partner
+  type: enterprise
+  description: >-
+    Technology/integration partners build against Encompass on behalf of lender
+    customers through the ICE Mortgage Technology partner program (historically
+    Encompass Partner Connect). Commercial and certification terms are negotiated with
+    ICE Mortgage Technology.
+  entries:
+  - label: Partner Program Agreement
+    name: partner_program_agreement
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales / partner program
+    userMultiplied: false
+  elements:
+  - name: Partner Integration Access
+  - name: Certification / Marketplace Listing
+  - name: Multi-Tenant Delegated Access
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

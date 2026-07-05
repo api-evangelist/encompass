@@ -1,0 +1,100 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Encompass
+providerId: encompass
+created: '2026-07-04'
+modified: '2026-07-04'
+reconciled: false
+tags:
+- Mortgage
+- Loan Origination
+- LOS
+- ICE Mortgage Technology
+- Ellie Mae
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Encompass Developer Connect spend. Encompass is an enterprise mortgage
+  loan origination system from ICE Mortgage Technology (formerly Ellie Mae); API access
+  is bundled into the commercial Encompass agreement rather than billed as a public,
+  usage-metered API product. There is no self-service per-call price. Cost is therefore
+  driven by the underlying Encompass licensing/relationship (typically per-user / per-
+  seat and volume-based for loan production) and by ICE Mortgage Technology partner-
+  program terms, plus the engineering cost of building and operating integrations. The
+  meters below describe the natural business drivers to watch, not published invoice
+  line items.
+notes: >-
+  No public FOCUS-conformant billing feed or per-unit API rate is documented as of the
+  review date. Reconcile actual charges against your ICE Mortgage Technology commercial
+  agreement. Treat meters as cost-driver signals, not invoiced quantities.
+sources:
+- https://developer.icemortgagetechnology.com/developer-connect/docs/welcome
+- https://www.icemortgagetechnology.com/
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: ICE Mortgage Technology
+serviceCategory: Software as a Service - Mortgage Loan Origination
+billingModel:
+  pricingCategory: Committed / Enterprise Agreement
+  billingFrequency: Contract
+  billingCurrency: USD
+  chargeCategories:
+  - Purchase
+  - Usage
+  - Adjustment
+focusColumns:
+  ServiceName: Encompass Developer Connect
+  ServiceCategory: Mortgage Loan Origination
+  ProviderName: ICE Mortgage Technology
+  PublisherName: ICE Mortgage Technology
+  InvoiceIssuerName: ICE Mortgage Technology
+  BillingCurrency: USD
+  ChargeCategory: Purchase
+  PricingCategory: Committed / Enterprise Agreement
+meters:
+- name: loan_production_volume
+  description: Loans originated / closed in Encompass; the primary commercial driver of the underlying LOS agreement.
+  unit: loans
+  aggregation: sum
+  dimensions:
+  - instance
+  - loanFolder
+- name: licensed_users
+  description: Encompass users / seats licensed on the instance whose personas can exercise the APIs.
+  unit: users
+  aggregation: max
+  dimensions:
+  - instance
+- name: api_requests
+  description: Developer Connect API calls made against the instance; governed by throttling rather than metered billing.
+  unit: requests
+  aggregation: sum
+  dimensions:
+  - instance
+  - application
+- name: webhook_events
+  description: Resource events delivered to webhook subscriptions; operational signal for integration load.
+  unit: events
+  aggregation: sum
+  dimensions:
+  - instance
+  - subscription
+principles:
+- name: Visibility
+  description: Track loan production volume, licensed users, and API/webhook request load per Encompass instance and integration.
+- name: Allocation
+  description: Map API client IDs and webhook subscriptions to specific integrations/teams so cost of ownership is attributable.
+- name: Optimization
+  description: Use webhooks and pipeline cursors instead of polling to reduce request load; retire deprecated v1 integrations; consolidate credentials per persona.
+- name: Accountability
+  description: Review the Encompass commercial agreement against actual loan volume and seat usage; assign owners for each partner integration.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

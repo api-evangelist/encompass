@@ -1,0 +1,203 @@
+aid: encompass
+url: https://raw.githubusercontent.com/api-evangelist/encompass/refs/heads/main/apis.yml
+name: Encompass
+kind: company
+description: Encompass is the dominant mortgage loan origination system (LOS), a product
+  of ICE Mortgage Technology (formerly Ellie Mae, acquired by Intercontinental Exchange /
+  ICE in 2020). Its developer program, Encompass Developer Connect, exposes REST APIs
+  that let partners and lenders configure, customize, and administer loan information and
+  resources programmatically - loan manufacturing, loan pipeline, borrower pairs,
+  contacts, eFolder documents and attachments, milestones, conditions, users, product
+  and pricing, and event webhooks. Access is partner/tenant-gated (OAuth 2.0 credentials
+  issued per Encompass instance by a super administrator), but the API reference is
+  publicly documented at developer.icemortgagetechnology.com.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Mortgage
+- Loan Origination
+- LOS
+- Fintech
+- ICE Mortgage Technology
+- Ellie Mae
+- Lending
+created: '2026-07-04'
+modified: '2026-07-04'
+specificationVersion: '0.19'
+apis:
+- aid: encompass:encompass-loan-management-api
+  name: Encompass Loan Management API
+  tags:
+  - Loans
+  - Loan Data
+  - Loan Manufacturing
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.icemortgagetechnology.com/developer-connect/reference/loan-management
+  baseURL: https://api.elliemae.com
+  properties:
+  - url: https://developer.icemortgagetechnology.com/developer-connect/docs/welcome
+    type: Documentation
+  - url: https://developer.icemortgagetechnology.com/developer-connect/reference/loan-management
+    type: APIReference
+  - url: openapi/encompass-openapi.yml
+    type: OpenAPI
+  description: Create, read, update, and delete Encompass loan files and read/write the
+    values of loan data fields between applications and Encompass. Includes moving loans
+    between folders and retrieving UCD field definitions. Path-based versioning (v3
+    current; v1 deprecated).
+- aid: encompass:encompass-loan-pipeline-api
+  name: Encompass Loan Pipeline API
+  tags:
+  - Pipeline
+  - Search
+  - Reporting
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.icemortgagetechnology.com/developer-connect/reference/loan-pipeline
+  baseURL: https://api.elliemae.com
+  properties:
+  - url: https://developer.icemortgagetechnology.com/developer-connect/reference/loan-pipeline
+    type: APIReference
+  - url: openapi/encompass-openapi.yml
+    type: OpenAPI
+  description: Search for loans and loan fields across the Encompass pipeline using
+    canonical field names, filter criteria, and cursor-based pagination for large result
+    sets. Retrieve the list of canonical (queryable) field names.
+- aid: encompass:encompass-borrower-pair-api
+  name: Encompass Borrower Pair & Applications API
+  tags:
+  - Borrowers
+  - Applications
+  - Borrower Pairs
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.icemortgagetechnology.com/developer-connect/reference/loan-management
+  baseURL: https://api.elliemae.com
+  properties:
+  - url: https://developer.icemortgagetechnology.com/developer-connect/reference/loan-management
+    type: APIReference
+  - url: openapi/encompass-openapi.yml
+    type: OpenAPI
+  description: Manage borrower pairs (applications) within a loan file - list, create,
+    read, update, and remove the borrower/co-borrower application entities that carry
+    each borrower's data on a loan.
+- aid: encompass:encompass-contacts-api
+  name: Encompass Contacts API
+  tags:
+  - Contacts
+  - Borrower Contacts
+  - Business Contacts
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.icemortgagetechnology.com/developer-connect/reference/browse-apis
+  baseURL: https://api.elliemae.com
+  properties:
+  - url: https://developer.icemortgagetechnology.com/developer-connect/reference/browse-apis
+    type: APIReference
+  - url: openapi/encompass-openapi.yml
+    type: OpenAPI
+  description: Manage borrower (consumer) contacts and business (service provider / vendor)
+    contacts, including contact notes and groupings, in the Encompass contact database.
+- aid: encompass:encompass-efolder-api
+  name: Encompass eFolder Documents & Attachments API
+  tags:
+  - Documents
+  - eFolder
+  - Attachments
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.icemortgagetechnology.com/developer-connect/reference/efolder-document-1
+  baseURL: https://api.elliemae.com
+  properties:
+  - url: https://developer.icemortgagetechnology.com/developer-connect/reference/efolder-document-1
+    type: APIReference
+  - url: https://developer.icemortgagetechnology.com/developer-connect/reference/efolder-attachment-1
+    type: APIReference
+  - url: openapi/encompass-openapi.yml
+    type: OpenAPI
+  description: Manage documents, attachments, and comments in a loan's eFolder - list
+    and create documents, upload and retrieve attachments (via cloud-storage URLs), and
+    manage the placeholders that organize a loan file's paperwork. V3 is current; several
+    v1 attachment endpoints are being deprecated.
+- aid: encompass:encompass-milestones-api
+  name: Encompass Milestones & Associates API
+  tags:
+  - Milestones
+  - Workflow
+  - Associates
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.icemortgagetechnology.com/developer-connect/reference/browse-apis
+  baseURL: https://api.elliemae.com
+  properties:
+  - url: https://developer.icemortgagetechnology.com/developer-connect/reference/browse-apis
+    type: APIReference
+  - url: openapi/encompass-openapi.yml
+    type: OpenAPI
+  description: Read and manage the milestones that mark a loan's progress through the
+    origination workflow, complete/finish milestones, and assign the associates (loan
+    team members) responsible at each stage.
+- aid: encompass:encompass-conditions-api
+  name: Encompass Conditions API
+  tags:
+  - Conditions
+  - Underwriting
+  - Tracking
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.icemortgagetechnology.com/developer-connect/reference/browse-apis
+  baseURL: https://api.elliemae.com
+  properties:
+  - url: https://developer.icemortgagetechnology.com/developer-connect/reference/browse-apis
+    type: APIReference
+  - url: openapi/encompass-openapi.yml
+    type: OpenAPI
+  description: Track and manage underwriting, preliminary, and post-closing conditions
+    on a loan, including the modern Enhanced Conditions system - list, create, update,
+    and clear conditions and their comments.
+- aid: encompass:encompass-users-api
+  name: Encompass Users API
+  tags:
+  - Users
+  - Identity
+  - Administration
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.icemortgagetechnology.com/developer-connect/reference/browse-apis
+  baseURL: https://api.elliemae.com
+  properties:
+  - url: https://developer.icemortgagetechnology.com/developer-connect/reference/browse-apis
+    type: APIReference
+  - url: openapi/encompass-openapi.yml
+    type: OpenAPI
+  description: Manage the internal Encompass users of a lender's instance - list, read,
+    create, and update user accounts, personas, roles, and license/organization
+    assignments that determine what data and features each user can access.
+- aid: encompass:encompass-webhooks-api
+  name: Encompass Webhooks API
+  tags:
+  - Webhooks
+  - Events
+  - Subscriptions
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.icemortgagetechnology.com/developer-connect/reference/browse-apis
+  baseURL: https://api.elliemae.com
+  properties:
+  - url: https://developer.icemortgagetechnology.com/developer-connect/reference/browse-apis
+    type: APIReference
+  - url: openapi/encompass-openapi.yml
+    type: OpenAPI
+  description: Subscribe to Encompass resource events (loan created / updated / deleted /
+    locked / unlocked and more), manage subscriptions, browse available resources and
+    their events, query event history, and configure custom authentication for webhook
+    delivery. Push-based HTTP callbacks, not a bidirectional WebSocket.
+common:
+- type: GitHubOrganization
+  url: https://github.com/api-evangelist/encompass-developer-connect
+- type: LinkedIn
+  url: https://www.linkedin.com/showcase/ice-mortgage-technology/
+- type: Website
+  url: https://www.icemortgagetechnology.com/
+- type: Documentation
+  url: https://developer.icemortgagetechnology.com/developer-connect/docs/welcome
+- type: Plans
+  url: plans/encompass-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/encompass-rate-limits.yml
+- type: FinOps
+  url: finops/encompass-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

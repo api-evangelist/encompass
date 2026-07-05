@@ -1,0 +1,139 @@
+aid: encompass
+name: Encompass
+review:
+  question: Does Encompass expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-04'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. Encompass Developer Connect's public event
+    mechanism is webhooks - ICE Mortgage Technology POSTs event notifications
+    (loan.created, loan.updated, loan.deleted, loan.locked, loan.unlocked, and
+    other resource events) to an HTTPS endpoint the subscriber registers. That is
+    server-to-endpoint HTTP push, not a client-held WebSocket or SSE stream on
+    Encompass's own API, so there is no server-push transport on Encompass's API
+    surface to model as AsyncAPI. The webhook subscription/resource/event
+    management surface is modeled as REST in the OpenAPI document instead.
+findings:
+  summary: |
+    Encompass does not publish a documented public WebSocket API. Encompass is the
+    dominant mortgage loan origination system (LOS), a product of ICE Mortgage
+    Technology - formerly Ellie Mae, acquired by Intercontinental Exchange (ICE) in
+    2020. Its developer program, Encompass Developer Connect, is a REST API platform
+    over HTTPS at host api.elliemae.com (the Ellie Mae lineage is still visible in
+    the API host). Access is partner/tenant-gated: every call carries an OAuth 2.0
+    bearer token (client_credentials or authorization_code) obtained from
+    POST https://api.elliemae.com/oauth2/v1/token, using a Client ID / secret / API
+    key that a super-administrator persona provisions in the developer portal per
+    Encompass instance. Versioning is path-based (v3 current, v1/v2 deprecated).
+    Real-time change notification is delivered via webhooks (HTTP push callbacks),
+    not a bidirectional WebSocket. No realtime ws:// or wss:// endpoint is documented
+    anywhere in the Developer Connect reference as of the review date.
+  gatedReference: |
+    The API reference at developer.icemortgagetechnology.com is publicly browsable
+    for endpoint listings (categories, paths, methods), but the interactive request
+    builder / "try it" and full schema payloads sit behind a developer-portal login,
+    and actually calling the APIs requires instance-provisioned OAuth credentials.
+    Endpoints marked x-endpoint-status "confirmed" in the OpenAPI were read from the
+    public reference (Loan Management, Loan Pipeline, eFolder documents/attachments,
+    all Webhooks endpoints, OAuth token). Endpoints marked "modeled" (Borrower Pairs,
+    Contacts, Milestones/Associates, Conditions, Users) follow Encompass's documented
+    and consistent path conventions but were not read verbatim from a public page and
+    should be verified against the live reference before use.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.elliemae.com
+      documented: true
+      note: All Developer Connect APIs are request/response REST over HTTPS. OAuth 2.0 bearer auth.
+    - protocol: Webhook
+      scheme: https
+      documented: true
+      note: Resource events are POSTed to a subscriber-registered HTTPS endpoint. Server-to-endpoint HTTP push, not WebSocket.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented anywhere in the Encompass Developer Connect reference as of the review date.
+  endpointsConfirmedRest:
+    - POST   https://api.elliemae.com/oauth2/v1/token
+    - POST   https://api.elliemae.com/encompass/v3/loans
+    - GET    https://api.elliemae.com/encompass/v3/loans/{loanId}
+    - PATCH  https://api.elliemae.com/encompass/v3/loans/{loanId}
+    - DELETE https://api.elliemae.com/encompass/v3/loans/{loanId}
+    - GET    https://api.elliemae.com/encompass/v3/loans/{loanId}/ucdFields
+    - PATCH  https://api.elliemae.com/encompass/v1/loans/{loanId}/moveToFolder
+    - POST   https://api.elliemae.com/encompass/v3/loanPipeline
+    - POST   https://api.elliemae.com/encompass/v3/loanPipeline/cursor
+    - GET    https://api.elliemae.com/encompass/v3/loanPipeline/canonicalNames
+    - GET    https://api.elliemae.com/encompass/v3/loans/{loanId}/documents
+    - POST   https://api.elliemae.com/encompass/v3/loans/{loanId}/documents
+    - GET    https://api.elliemae.com/encompass/v3/loans/{loanId}/attachments
+    - GET    https://api.elliemae.com/encompass/v3/loans/{loanId}/attachments/{attachmentId}
+    - GET    https://api.elliemae.com/webhook/v1/subscriptions
+    - POST   https://api.elliemae.com/webhook/v1/subscriptions
+    - GET    https://api.elliemae.com/webhook/v1/subscriptions/{id}
+    - PUT    https://api.elliemae.com/webhook/v1/subscriptions/{id}
+    - DELETE https://api.elliemae.com/webhook/v1/subscriptions/{id}
+    - GET    https://api.elliemae.com/webhook/v1/resources
+    - GET    https://api.elliemae.com/webhook/v1/resources/{id}/events
+    - GET    https://api.elliemae.com/webhook/v1/events
+    - GET    https://api.elliemae.com/webhook/v1/events/{id}
+  endpointsModeledRest:
+    - GET    https://api.elliemae.com/encompass/v3/loans/{loanId}/applications
+    - POST   https://api.elliemae.com/encompass/v3/loans/{loanId}/applications
+    - GET    https://api.elliemae.com/encompass/v3/loans/{loanId}/applications/{applicationId}
+    - DELETE https://api.elliemae.com/encompass/v3/loans/{loanId}/applications/{applicationId}
+    - GET    https://api.elliemae.com/encompass/v1/borrowerContacts
+    - POST   https://api.elliemae.com/encompass/v1/borrowerContacts
+    - GET    https://api.elliemae.com/encompass/v1/borrowerContacts/{contactId}
+    - PATCH  https://api.elliemae.com/encompass/v1/borrowerContacts/{contactId}
+    - GET    https://api.elliemae.com/encompass/v1/businessContacts
+    - POST   https://api.elliemae.com/encompass/v1/businessContacts
+    - GET    https://api.elliemae.com/encompass/v3/loans/{loanId}/milestones
+    - PATCH  https://api.elliemae.com/encompass/v3/loans/{loanId}/milestones/{milestoneId}
+    - GET    https://api.elliemae.com/encompass/v3/loans/{loanId}/associates
+    - GET    https://api.elliemae.com/encompass/v1/loans/{loanId}/conditions/underwriting
+    - POST   https://api.elliemae.com/encompass/v1/loans/{loanId}/conditions/underwriting
+    - PATCH  https://api.elliemae.com/encompass/v1/loans/{loanId}/conditions/underwriting/{conditionId}
+    - GET    https://api.elliemae.com/encompass/v1/users
+    - POST   https://api.elliemae.com/encompass/v1/users
+    - GET    https://api.elliemae.com/encompass/v1/users/{userId}
+    - PATCH  https://api.elliemae.com/encompass/v1/users/{userId}
+sources:
+  - url: https://developer.icemortgagetechnology.com/developer-connect/docs/welcome
+    type: Documentation
+    note: Developer Connect overview; REST platform for loan info and resources.
+  - url: https://developer.icemortgagetechnology.com/developer-connect/reference/browse-apis
+    type: APIReference
+    note: Public catalog of API categories (Loans, Pipeline, eFolder, Contacts, Milestones, Conditions, Users, Webhooks, etc.). All HTTPS REST.
+  - url: https://developer.icemortgagetechnology.com/developer-connect/reference/loan-management
+    type: APIReference
+    note: Loan Management v3/v1 endpoints (/encompass/v3/loans...). Confirmed REST.
+  - url: https://developer.icemortgagetechnology.com/developer-connect/reference/loan-pipeline
+    type: APIReference
+    note: Loan Pipeline endpoints (/encompass/v3/loanPipeline, /cursor, /canonicalNames). Confirmed REST.
+  - url: https://developer.icemortgagetechnology.com/developer-connect/reference/subscriptions
+    type: APIReference
+    note: Webhook subscriptions/resources/events endpoints under /webhook/v1. HTTP push callbacks, not WebSocket.
+  - url: https://developer.icemortgagetechnology.com/developer-connect/reference/efolder-document-1
+    type: APIReference
+    note: eFolder documents/attachments; v3 uses cloud-storage URLs, several v1 attachment endpoints deprecating.
+  - url: https://developer.icemortgagetechnology.com/developer-connect/docs/authentication
+    type: Documentation
+    note: OAuth 2.0 authorization; token endpoint POST https://api.elliemae.com/oauth2/v1/token.
+  - url: https://developer.icemortgagetechnology.com/developer-connect/docs/get-an-api-key
+    type: Documentation
+    note: API key / Client ID provisioned per instance by a super-administrator persona; persona governs access.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists on Encompass Developer Connect. The API is
+    request/response REST over HTTPS at api.elliemae.com with OAuth 2.0, and its
+    event mechanism is HTTP-push webhooks rather than a client-held WebSocket or SSE
+    stream. No AsyncAPI document was created because there is no server-push transport
+    on Encompass's own API to model; the webhook management surface is captured as REST
+    in the OpenAPI document. The access model is partner/tenant-gated, so confirmed
+    endpoints were read from the public reference and the remainder are honestly
+    labeled as modeled from documented path conventions.
