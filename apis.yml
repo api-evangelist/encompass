@@ -184,6 +184,8 @@ apis:
     their events, query event history, and configure custom authentication for webhook
     delivery. Push-based HTTP callbacks, not a bidirectional WebSocket.
 common:
+- type: OAuthScopes
+  url: scopes/encompass-scopes.yml
 - type: GitHubOrganization
   url: https://github.com/api-evangelist/encompass-developer-connect
 - type: LinkedIn

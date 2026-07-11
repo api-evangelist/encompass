@@ -1,0 +1,22 @@
+generated: '2026-07-11'
+method: searched
+source: openapi/encompass-openapi.yml
+docs: https://developer.icemortgagetechnology.com/developer-connect/docs/authentication
+note: Encompass Developer Connect uses a single OAuth 2.0 scope, lp (Lending Platform),
+  across all grant types; fine-grained permissions are governed by token claims, the
+  Encompass instance, and user personas/roles rather than granular scopes
+  (https://developer.icemortgagetechnology.com/developer-connect/docs/authentication-and-authorization-in-the-encompass-lending-platform).
+schemes:
+- name: oAuth2
+  source: openapi/encompass-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.elliemae.com/oauth2/v1/token
+  description: OAuth 2.0 client credentials / authorization code issued per Encompass instance.
+scopes:
+- scope: lp
+  description: Lending Platform - the single scope required for access to the Encompass
+    Developer Connect (Lending Platform) APIs; used with the authorization_code, password,
+    client_credentials, and token-exchange (user impersonation) grant types.
+  sources:
+  - https://developer.icemortgagetechnology.com/developer-connect/docs/authentication
