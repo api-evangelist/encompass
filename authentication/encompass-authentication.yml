@@ -1,0 +1,25 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/encompass-openapi.yml
+summary:
+  types:
+  - http
+  - oauth2
+  oauth2_flows:
+  - clientCredentials
+schemes:
+- name: oAuth2
+  type: oauth2
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.elliemae.com/oauth2/v1/token
+    scopes: 0
+  description: OAuth 2.0 client credentials / authorization code issued per Encompass instance.
+  sources:
+  - openapi/encompass-openapi.yml
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  sources:
+  - openapi/encompass-openapi.yml

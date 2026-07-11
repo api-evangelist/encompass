@@ -184,6 +184,10 @@ apis:
     their events, query event history, and configure custom authentication for webhook
     delivery. Push-based HTTP callbacks, not a bidirectional WebSocket.
 common:
+- type: DomainSecurity
+  url: security/encompass-domain-security.yml
+- type: Authentication
+  url: authentication/encompass-authentication.yml
 - type: OAuthScopes
   url: scopes/encompass-scopes.yml
 - type: GitHubOrganization
