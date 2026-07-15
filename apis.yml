@@ -184,6 +184,8 @@ apis:
     their events, query event history, and configure custom authentication for webhook
     delivery. Push-based HTTP callbacks, not a bidirectional WebSocket.
 common:
+- type: AgenticAccess
+  url: agentic-access/encompass-agentic-access.yml
 - type: DomainSecurity
   url: security/encompass-domain-security.yml
 - type: Authentication
