@@ -1,0 +1,124 @@
+openapi: 3.0.3
+info:
+  title: Encompass Developer Connect Authentication Contacts API
+  description: 'Encompass Developer Connect is the ICE Mortgage Technology (formerly Ellie Mae) REST API platform for the Encompass loan origination system (LOS). It lets partners and lenders configure, customize, and administer loan information and resources programmatically - loan manufacturing, loan pipeline, borrower pairs, contacts, eFolder documents and attachments, milestones, conditions, users, and event webhooks.
+
+
+    Access is partner/tenant-gated: every call is authenticated with an OAuth 2.0 bearer token issued for a specific Encompass instance. Credentials (Client ID and secret / API key) are provisioned in the developer portal and distributed by an Encompass user with the super administrator persona. The data and features a token can reach are governed by the caller''s assigned Encompass persona.
+
+
+    Versioning is path-based; v3 is current and v1/v2 are deprecated. This document grounds endpoints in the public API reference at developer.icemortgagetechnology.com. Endpoints tagged x-endpoint-status "confirmed" are read directly from the public reference; those tagged "modeled" follow Encompass''s documented, consistent path conventions but were authored behind the login-gated request builder and should be verified against the live reference before use.'
+  version: '2026-07-04'
+  contact:
+    name: ICE Mortgage Technology - Encompass Developer Connect
+    url: https://developer.icemortgagetechnology.com/developer-connect/docs/welcome
+  x-lineage: Encompass is a product of ICE Mortgage Technology, formerly Ellie Mae, acquired by Intercontinental Exchange (ICE) in 2020. The API host api.elliemae.com reflects the Ellie Mae lineage.
+servers:
+- url: https://api.elliemae.com
+  description: Encompass Developer Connect production API host (Ellie Mae lineage)
+security:
+- oAuth2: []
+- bearerAuth: []
+tags:
+- name: Contacts
+  description: Borrower (consumer) and business contacts (modeled).
+paths:
+  /encompass/v1/borrowerContacts:
+    get:
+      operationId: listBorrowerContacts
+      tags:
+      - Contacts
+      summary: List borrower contacts
+      description: List consumer (borrower) contacts in the contact database.
+      x-endpoint-status: modeled
+      responses:
+        '200':
+          description: A list of borrower contacts.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createBorrowerContact
+      tags:
+      - Contacts
+      summary: Create a borrower contact
+      x-endpoint-status: modeled
+      responses:
+        '201':
+          description: Borrower contact created.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /encompass/v1/borrowerContacts/{contactId}:
+    get:
+      operationId: getBorrowerContact
+      tags:
+      - Contacts
+      summary: Retrieve a borrower contact
+      x-endpoint-status: modeled
+      parameters:
+      - $ref: '#/components/parameters/ContactId'
+      responses:
+        '200':
+          description: The borrower contact.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    patch:
+      operationId: updateBorrowerContact
+      tags:
+      - Contacts
+      summary: Update a borrower contact
+      x-endpoint-status: modeled
+      parameters:
+      - $ref: '#/components/parameters/ContactId'
+      responses:
+        '200':
+          description: The updated borrower contact.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /encompass/v1/businessContacts:
+    get:
+      operationId: listBusinessContacts
+      tags:
+      - Contacts
+      summary: List business contacts
+      description: List business (service provider / vendor) contacts.
+      x-endpoint-status: modeled
+      responses:
+        '200':
+          description: A list of business contacts.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createBusinessContact
+      tags:
+      - Contacts
+      summary: Create a business contact
+      x-endpoint-status: modeled
+      responses:
+        '201':
+          description: Business contact created.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  parameters:
+    ContactId:
+      name: contactId
+      in: path
+      required: true
+      description: The contact identifier.
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid OAuth 2.0 bearer token.
+  securitySchemes:
+    oAuth2:
+      type: oauth2
+      description: OAuth 2.0 client credentials / authorization code issued per Encompass instance.
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.elliemae.com/oauth2/v1/token
+          scopes: {}
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

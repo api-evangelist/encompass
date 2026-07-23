@@ -1,0 +1,116 @@
+openapi: 3.0.3
+info:
+  title: Encompass Developer Connect Authentication eFolder API
+  description: 'Encompass Developer Connect is the ICE Mortgage Technology (formerly Ellie Mae) REST API platform for the Encompass loan origination system (LOS). It lets partners and lenders configure, customize, and administer loan information and resources programmatically - loan manufacturing, loan pipeline, borrower pairs, contacts, eFolder documents and attachments, milestones, conditions, users, and event webhooks.
+
+
+    Access is partner/tenant-gated: every call is authenticated with an OAuth 2.0 bearer token issued for a specific Encompass instance. Credentials (Client ID and secret / API key) are provisioned in the developer portal and distributed by an Encompass user with the super administrator persona. The data and features a token can reach are governed by the caller''s assigned Encompass persona.
+
+
+    Versioning is path-based; v3 is current and v1/v2 are deprecated. This document grounds endpoints in the public API reference at developer.icemortgagetechnology.com. Endpoints tagged x-endpoint-status "confirmed" are read directly from the public reference; those tagged "modeled" follow Encompass''s documented, consistent path conventions but were authored behind the login-gated request builder and should be verified against the live reference before use.'
+  version: '2026-07-04'
+  contact:
+    name: ICE Mortgage Technology - Encompass Developer Connect
+    url: https://developer.icemortgagetechnology.com/developer-connect/docs/welcome
+  x-lineage: Encompass is a product of ICE Mortgage Technology, formerly Ellie Mae, acquired by Intercontinental Exchange (ICE) in 2020. The API host api.elliemae.com reflects the Ellie Mae lineage.
+servers:
+- url: https://api.elliemae.com
+  description: Encompass Developer Connect production API host (Ellie Mae lineage)
+security:
+- oAuth2: []
+- bearerAuth: []
+tags:
+- name: eFolder
+  description: Documents and attachments in a loan's eFolder.
+paths:
+  /encompass/v3/loans/{loanId}/documents:
+    get:
+      operationId: listEfolderDocuments
+      tags:
+      - eFolder
+      summary: List eFolder documents
+      description: List the documents (placeholders) in a loan's eFolder.
+      x-endpoint-status: confirmed
+      parameters:
+      - $ref: '#/components/parameters/LoanId'
+      responses:
+        '200':
+          description: A list of eFolder documents.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createEfolderDocument
+      tags:
+      - eFolder
+      summary: Create an eFolder document
+      description: Create a document placeholder in a loan's eFolder.
+      x-endpoint-status: confirmed
+      parameters:
+      - $ref: '#/components/parameters/LoanId'
+      responses:
+        '201':
+          description: Document created.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /encompass/v3/loans/{loanId}/attachments:
+    get:
+      operationId: listEfolderAttachments
+      tags:
+      - eFolder
+      summary: List eFolder attachments
+      description: List the attachments in a loan's eFolder. V3 returns cloud-storage URLs for uploading and retrieving attachment media. (Several v1 attachment endpoints are being deprecated in favor of v3.)
+      x-endpoint-status: confirmed
+      parameters:
+      - $ref: '#/components/parameters/LoanId'
+      responses:
+        '200':
+          description: A list of attachments.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /encompass/v3/loans/{loanId}/attachments/{attachmentId}:
+    get:
+      operationId: getEfolderAttachment
+      tags:
+      - eFolder
+      summary: Retrieve an eFolder attachment
+      description: Retrieve an attachment's metadata and cloud-storage retrieval URL.
+      x-endpoint-status: confirmed
+      parameters:
+      - $ref: '#/components/parameters/LoanId'
+      - $ref: '#/components/parameters/AttachmentId'
+      responses:
+        '200':
+          description: The attachment.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  parameters:
+    LoanId:
+      name: loanId
+      in: path
+      required: true
+      description: The loan GUID.
+      schema:
+        type: string
+    AttachmentId:
+      name: attachmentId
+      in: path
+      required: true
+      description: The eFolder attachment identifier.
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid OAuth 2.0 bearer token.
+  securitySchemes:
+    oAuth2:
+      type: oauth2
+      description: OAuth 2.0 client credentials / authorization code issued per Encompass instance.
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.elliemae.com/oauth2/v1/token
+          scopes: {}
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

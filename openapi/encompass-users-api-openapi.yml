@@ -1,0 +1,109 @@
+openapi: 3.0.3
+info:
+  title: Encompass Developer Connect Authentication Users API
+  description: 'Encompass Developer Connect is the ICE Mortgage Technology (formerly Ellie Mae) REST API platform for the Encompass loan origination system (LOS). It lets partners and lenders configure, customize, and administer loan information and resources programmatically - loan manufacturing, loan pipeline, borrower pairs, contacts, eFolder documents and attachments, milestones, conditions, users, and event webhooks.
+
+
+    Access is partner/tenant-gated: every call is authenticated with an OAuth 2.0 bearer token issued for a specific Encompass instance. Credentials (Client ID and secret / API key) are provisioned in the developer portal and distributed by an Encompass user with the super administrator persona. The data and features a token can reach are governed by the caller''s assigned Encompass persona.
+
+
+    Versioning is path-based; v3 is current and v1/v2 are deprecated. This document grounds endpoints in the public API reference at developer.icemortgagetechnology.com. Endpoints tagged x-endpoint-status "confirmed" are read directly from the public reference; those tagged "modeled" follow Encompass''s documented, consistent path conventions but were authored behind the login-gated request builder and should be verified against the live reference before use.'
+  version: '2026-07-04'
+  contact:
+    name: ICE Mortgage Technology - Encompass Developer Connect
+    url: https://developer.icemortgagetechnology.com/developer-connect/docs/welcome
+  x-lineage: Encompass is a product of ICE Mortgage Technology, formerly Ellie Mae, acquired by Intercontinental Exchange (ICE) in 2020. The API host api.elliemae.com reflects the Ellie Mae lineage.
+servers:
+- url: https://api.elliemae.com
+  description: Encompass Developer Connect production API host (Ellie Mae lineage)
+security:
+- oAuth2: []
+- bearerAuth: []
+tags:
+- name: Users
+  description: Internal Encompass user administration (modeled).
+paths:
+  /encompass/v1/users:
+    get:
+      operationId: listUsers
+      tags:
+      - Users
+      summary: List Encompass users
+      description: List the internal Encompass users in the lender's instance.
+      x-endpoint-status: modeled
+      parameters:
+      - name: start
+        in: query
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: A list of users.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createUser
+      tags:
+      - Users
+      summary: Create an Encompass user
+      x-endpoint-status: modeled
+      responses:
+        '201':
+          description: User created.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /encompass/v1/users/{userId}:
+    get:
+      operationId: getUser
+      tags:
+      - Users
+      summary: Retrieve an Encompass user
+      x-endpoint-status: modeled
+      parameters:
+      - $ref: '#/components/parameters/UserId'
+      responses:
+        '200':
+          description: The user.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    patch:
+      operationId: updateUser
+      tags:
+      - Users
+      summary: Update an Encompass user
+      x-endpoint-status: modeled
+      parameters:
+      - $ref: '#/components/parameters/UserId'
+      responses:
+        '200':
+          description: The updated user.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  parameters:
+    UserId:
+      name: userId
+      in: path
+      required: true
+      description: The Encompass user identifier.
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid OAuth 2.0 bearer token.
+  securitySchemes:
+    oAuth2:
+      type: oauth2
+      description: OAuth 2.0 client credentials / authorization code issued per Encompass instance.
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.elliemae.com/oauth2/v1/token
+          scopes: {}
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

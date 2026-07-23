@@ -1,0 +1,93 @@
+openapi: 3.0.3
+info:
+  title: Encompass Developer Connect Authentication Loan Pipeline API
+  description: 'Encompass Developer Connect is the ICE Mortgage Technology (formerly Ellie Mae) REST API platform for the Encompass loan origination system (LOS). It lets partners and lenders configure, customize, and administer loan information and resources programmatically - loan manufacturing, loan pipeline, borrower pairs, contacts, eFolder documents and attachments, milestones, conditions, users, and event webhooks.
+
+
+    Access is partner/tenant-gated: every call is authenticated with an OAuth 2.0 bearer token issued for a specific Encompass instance. Credentials (Client ID and secret / API key) are provisioned in the developer portal and distributed by an Encompass user with the super administrator persona. The data and features a token can reach are governed by the caller''s assigned Encompass persona.
+
+
+    Versioning is path-based; v3 is current and v1/v2 are deprecated. This document grounds endpoints in the public API reference at developer.icemortgagetechnology.com. Endpoints tagged x-endpoint-status "confirmed" are read directly from the public reference; those tagged "modeled" follow Encompass''s documented, consistent path conventions but were authored behind the login-gated request builder and should be verified against the live reference before use.'
+  version: '2026-07-04'
+  contact:
+    name: ICE Mortgage Technology - Encompass Developer Connect
+    url: https://developer.icemortgagetechnology.com/developer-connect/docs/welcome
+  x-lineage: Encompass is a product of ICE Mortgage Technology, formerly Ellie Mae, acquired by Intercontinental Exchange (ICE) in 2020. The API host api.elliemae.com reflects the Ellie Mae lineage.
+servers:
+- url: https://api.elliemae.com
+  description: Encompass Developer Connect production API host (Ellie Mae lineage)
+security:
+- oAuth2: []
+- bearerAuth: []
+tags:
+- name: Loan Pipeline
+  description: Search loans and loan fields across the pipeline with cursor pagination.
+paths:
+  /encompass/v3/loanPipeline:
+    post:
+      operationId: viewPipeline
+      tags:
+      - Loan Pipeline
+      summary: Query the loan pipeline
+      description: Search for loans and loan fields on the pipeline using canonical field names and filter criteria (CanonicalName, Value, MatchType, Terms, Operator, Precision, Include). Supports cursor-based pagination via the Cursor and Start/Limit query parameters.
+      x-endpoint-status: confirmed
+      parameters:
+      - name: cursor
+        in: query
+        schema:
+          type: string
+      - name: start
+        in: query
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Matching pipeline rows.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /encompass/v3/loanPipeline/cursor:
+    post:
+      operationId: createPipelineCursor
+      tags:
+      - Loan Pipeline
+      summary: Create a pipeline cursor
+      description: Create a cursor for a pipeline report to page through large result sets.
+      x-endpoint-status: confirmed
+      responses:
+        '200':
+          description: Cursor created.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /encompass/v3/loanPipeline/canonicalNames:
+    get:
+      operationId: getPipelineCanonicalNames
+      tags:
+      - Loan Pipeline
+      summary: Get canonical field names
+      description: Retrieve the list of canonical (queryable) field names for the pipeline.
+      x-endpoint-status: confirmed
+      responses:
+        '200':
+          description: List of canonical names.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid OAuth 2.0 bearer token.
+  securitySchemes:
+    oAuth2:
+      type: oauth2
+      description: OAuth 2.0 client credentials / authorization code issued per Encompass instance.
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.elliemae.com/oauth2/v1/token
+          scopes: {}
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
