@@ -1,0 +1,863 @@
+openapi: 3.0.3
+info:
+  title: Encompass Developer Connect API
+  description: >-
+    Encompass Developer Connect is the ICE Mortgage Technology (formerly Ellie Mae)
+    REST API platform for the Encompass loan origination system (LOS). It lets partners
+    and lenders configure, customize, and administer loan information and resources
+    programmatically - loan manufacturing, loan pipeline, borrower pairs, contacts,
+    eFolder documents and attachments, milestones, conditions, users, and event
+    webhooks.
+
+
+    Access is partner/tenant-gated: every call is authenticated with an OAuth 2.0
+    bearer token issued for a specific Encompass instance. Credentials (Client ID and
+    secret / API key) are provisioned in the developer portal and distributed by an
+    Encompass user with the super administrator persona. The data and features a token
+    can reach are governed by the caller's assigned Encompass persona.
+
+
+    Versioning is path-based; v3 is current and v1/v2 are deprecated. This document
+    grounds endpoints in the public API reference at developer.icemortgagetechnology.com.
+    Endpoints tagged x-endpoint-status "confirmed" are read directly from the public
+    reference; those tagged "modeled" follow Encompass's documented, consistent path
+    conventions but were authored behind the login-gated request builder and should be
+    verified against the live reference before use.
+  version: '2026-07-04'
+  contact:
+    name: ICE Mortgage Technology - Encompass Developer Connect
+    url: https://developer.icemortgagetechnology.com/developer-connect/docs/welcome
+  x-lineage: >-
+    Encompass is a product of ICE Mortgage Technology, formerly Ellie Mae, acquired by
+    Intercontinental Exchange (ICE) in 2020. The API host api.elliemae.com reflects the
+    Ellie Mae lineage.
+servers:
+  - url: https://api.elliemae.com
+    description: Encompass Developer Connect production API host (Ellie Mae lineage)
+security:
+  - oAuth2: []
+  - bearerAuth: []
+tags:
+  - name: Authentication
+    description: OAuth 2.0 token issuance.
+  - name: Loan Management
+    description: Create, read, update, and delete Encompass loan files and loan data.
+  - name: Loan Pipeline
+    description: Search loans and loan fields across the pipeline with cursor pagination.
+  - name: Borrower Pairs
+    description: Borrower/co-borrower application entities within a loan (modeled).
+  - name: Contacts
+    description: Borrower (consumer) and business contacts (modeled).
+  - name: eFolder
+    description: Documents and attachments in a loan's eFolder.
+  - name: Milestones
+    description: Loan workflow milestones and associates (modeled).
+  - name: Conditions
+    description: Underwriting, preliminary, and post-closing conditions (modeled).
+  - name: Users
+    description: Internal Encompass user administration (modeled).
+  - name: Webhooks
+    description: Event subscriptions, resources, events, and custom auth functions.
+paths:
+  /oauth2/v1/token:
+    post:
+      operationId: getToken
+      tags:
+        - Authentication
+      summary: Request an OAuth 2.0 access token
+      description: >-
+        Exchange client credentials (client_credentials grant for server-to-server, or
+        authorization_code for user-delegated access) for a bearer access token scoped
+        to an Encompass instance.
+      x-endpoint-status: confirmed
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                grant_type:
+                  type: string
+                  example: client_credentials
+                client_id:
+                  type: string
+                client_secret:
+                  type: string
+                scope:
+                  type: string
+      responses:
+        '200':
+          description: An access token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                  token_type:
+                    type: string
+                    example: Bearer
+                  expires_in:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /encompass/v3/loans:
+    post:
+      operationId: createLoan
+      tags:
+        - Loan Management
+      summary: Create a loan
+      description: Create a new Encompass loan file, optionally from a loan template set.
+      x-endpoint-status: confirmed
+      responses:
+        '201':
+          description: The created loan.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Loan'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /encompass/v3/loans/{loanId}:
+    get:
+      operationId: getLoan
+      tags:
+        - Loan Management
+      summary: Retrieve a loan
+      description: Retrieve a loan file and its data by loan GUID.
+      x-endpoint-status: confirmed
+      parameters:
+        - $ref: '#/components/parameters/LoanId'
+        - name: entities
+          in: query
+          description: Comma-separated list of loan entities to include in the response.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The requested loan.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Loan'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateLoan
+      tags:
+        - Loan Management
+      summary: Update a loan
+      description: Write values to loan data fields. Supports append/replace of collections.
+      x-endpoint-status: confirmed
+      parameters:
+        - $ref: '#/components/parameters/LoanId'
+      responses:
+        '200':
+          description: The updated loan.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: deleteLoan
+      tags:
+        - Loan Management
+      summary: Delete a loan
+      description: Delete a loan file.
+      x-endpoint-status: confirmed
+      parameters:
+        - $ref: '#/components/parameters/LoanId'
+      responses:
+        '204':
+          description: Loan deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /encompass/v3/loans/{loanId}/ucdFields:
+    get:
+      operationId: getLoanUcdFields
+      tags:
+        - Loan Management
+      summary: Retrieve UCD field definitions for a loan
+      description: Retrieve Uniform Closing Dataset (UCD) field definitions for a loan.
+      x-endpoint-status: confirmed
+      parameters:
+        - $ref: '#/components/parameters/LoanId'
+      responses:
+        '200':
+          description: UCD field definitions.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /encompass/v1/loans/{loanId}/moveToFolder:
+    patch:
+      operationId: moveLoanToFolder
+      tags:
+        - Loan Management
+      summary: Move a loan to a folder
+      description: Move a loan file into a different loan folder.
+      x-endpoint-status: confirmed
+      parameters:
+        - $ref: '#/components/parameters/LoanId'
+      responses:
+        '200':
+          description: Loan moved.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /encompass/v3/loanPipeline:
+    post:
+      operationId: viewPipeline
+      tags:
+        - Loan Pipeline
+      summary: Query the loan pipeline
+      description: >-
+        Search for loans and loan fields on the pipeline using canonical field names and
+        filter criteria (CanonicalName, Value, MatchType, Terms, Operator, Precision,
+        Include). Supports cursor-based pagination via the Cursor and Start/Limit query
+        parameters.
+      x-endpoint-status: confirmed
+      parameters:
+        - name: cursor
+          in: query
+          schema:
+            type: string
+        - name: start
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Matching pipeline rows.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /encompass/v3/loanPipeline/cursor:
+    post:
+      operationId: createPipelineCursor
+      tags:
+        - Loan Pipeline
+      summary: Create a pipeline cursor
+      description: Create a cursor for a pipeline report to page through large result sets.
+      x-endpoint-status: confirmed
+      responses:
+        '200':
+          description: Cursor created.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /encompass/v3/loanPipeline/canonicalNames:
+    get:
+      operationId: getPipelineCanonicalNames
+      tags:
+        - Loan Pipeline
+      summary: Get canonical field names
+      description: Retrieve the list of canonical (queryable) field names for the pipeline.
+      x-endpoint-status: confirmed
+      responses:
+        '200':
+          description: List of canonical names.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /encompass/v3/loans/{loanId}/applications:
+    get:
+      operationId: listBorrowerPairs
+      tags:
+        - Borrower Pairs
+      summary: List borrower pairs (applications)
+      description: >-
+        List the borrower/co-borrower application entities (borrower pairs) on a loan.
+      x-endpoint-status: modeled
+      parameters:
+        - $ref: '#/components/parameters/LoanId'
+      responses:
+        '200':
+          description: A list of borrower pairs.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createBorrowerPair
+      tags:
+        - Borrower Pairs
+      summary: Create a borrower pair
+      description: Add a new borrower pair (application) to a loan.
+      x-endpoint-status: modeled
+      parameters:
+        - $ref: '#/components/parameters/LoanId'
+      responses:
+        '201':
+          description: Borrower pair created.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /encompass/v3/loans/{loanId}/applications/{applicationId}:
+    get:
+      operationId: getBorrowerPair
+      tags:
+        - Borrower Pairs
+      summary: Retrieve a borrower pair
+      x-endpoint-status: modeled
+      parameters:
+        - $ref: '#/components/parameters/LoanId'
+        - $ref: '#/components/parameters/ApplicationId'
+      responses:
+        '200':
+          description: The borrower pair.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: deleteBorrowerPair
+      tags:
+        - Borrower Pairs
+      summary: Delete a borrower pair
+      x-endpoint-status: modeled
+      parameters:
+        - $ref: '#/components/parameters/LoanId'
+        - $ref: '#/components/parameters/ApplicationId'
+      responses:
+        '204':
+          description: Borrower pair deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /encompass/v1/borrowerContacts:
+    get:
+      operationId: listBorrowerContacts
+      tags:
+        - Contacts
+      summary: List borrower contacts
+      description: List consumer (borrower) contacts in the contact database.
+      x-endpoint-status: modeled
+      responses:
+        '200':
+          description: A list of borrower contacts.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createBorrowerContact
+      tags:
+        - Contacts
+      summary: Create a borrower contact
+      x-endpoint-status: modeled
+      responses:
+        '201':
+          description: Borrower contact created.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /encompass/v1/borrowerContacts/{contactId}:
+    get:
+      operationId: getBorrowerContact
+      tags:
+        - Contacts
+      summary: Retrieve a borrower contact
+      x-endpoint-status: modeled
+      parameters:
+        - $ref: '#/components/parameters/ContactId'
+      responses:
+        '200':
+          description: The borrower contact.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    patch:
+      operationId: updateBorrowerContact
+      tags:
+        - Contacts
+      summary: Update a borrower contact
+      x-endpoint-status: modeled
+      parameters:
+        - $ref: '#/components/parameters/ContactId'
+      responses:
+        '200':
+          description: The updated borrower contact.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /encompass/v1/businessContacts:
+    get:
+      operationId: listBusinessContacts
+      tags:
+        - Contacts
+      summary: List business contacts
+      description: List business (service provider / vendor) contacts.
+      x-endpoint-status: modeled
+      responses:
+        '200':
+          description: A list of business contacts.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createBusinessContact
+      tags:
+        - Contacts
+      summary: Create a business contact
+      x-endpoint-status: modeled
+      responses:
+        '201':
+          description: Business contact created.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /encompass/v3/loans/{loanId}/documents:
+    get:
+      operationId: listEfolderDocuments
+      tags:
+        - eFolder
+      summary: List eFolder documents
+      description: List the documents (placeholders) in a loan's eFolder.
+      x-endpoint-status: confirmed
+      parameters:
+        - $ref: '#/components/parameters/LoanId'
+      responses:
+        '200':
+          description: A list of eFolder documents.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createEfolderDocument
+      tags:
+        - eFolder
+      summary: Create an eFolder document
+      description: Create a document placeholder in a loan's eFolder.
+      x-endpoint-status: confirmed
+      parameters:
+        - $ref: '#/components/parameters/LoanId'
+      responses:
+        '201':
+          description: Document created.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /encompass/v3/loans/{loanId}/attachments:
+    get:
+      operationId: listEfolderAttachments
+      tags:
+        - eFolder
+      summary: List eFolder attachments
+      description: >-
+        List the attachments in a loan's eFolder. V3 returns cloud-storage URLs for
+        uploading and retrieving attachment media. (Several v1 attachment endpoints are
+        being deprecated in favor of v3.)
+      x-endpoint-status: confirmed
+      parameters:
+        - $ref: '#/components/parameters/LoanId'
+      responses:
+        '200':
+          description: A list of attachments.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /encompass/v3/loans/{loanId}/attachments/{attachmentId}:
+    get:
+      operationId: getEfolderAttachment
+      tags:
+        - eFolder
+      summary: Retrieve an eFolder attachment
+      description: Retrieve an attachment's metadata and cloud-storage retrieval URL.
+      x-endpoint-status: confirmed
+      parameters:
+        - $ref: '#/components/parameters/LoanId'
+        - $ref: '#/components/parameters/AttachmentId'
+      responses:
+        '200':
+          description: The attachment.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /encompass/v3/loans/{loanId}/milestones:
+    get:
+      operationId: listMilestones
+      tags:
+        - Milestones
+      summary: List loan milestones
+      description: List the milestones marking a loan's progress through origination.
+      x-endpoint-status: modeled
+      parameters:
+        - $ref: '#/components/parameters/LoanId'
+      responses:
+        '200':
+          description: A list of milestones.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /encompass/v3/loans/{loanId}/milestones/{milestoneId}:
+    patch:
+      operationId: updateMilestone
+      tags:
+        - Milestones
+      summary: Update / complete a milestone
+      description: Finish or update a milestone and its assigned associate.
+      x-endpoint-status: modeled
+      parameters:
+        - $ref: '#/components/parameters/LoanId'
+        - $ref: '#/components/parameters/MilestoneId'
+      responses:
+        '200':
+          description: The updated milestone.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /encompass/v3/loans/{loanId}/associates:
+    get:
+      operationId: listLoanAssociates
+      tags:
+        - Milestones
+      summary: List loan associates
+      description: List the associates (loan team members) assigned to a loan's milestones.
+      x-endpoint-status: modeled
+      parameters:
+        - $ref: '#/components/parameters/LoanId'
+      responses:
+        '200':
+          description: A list of associates.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /encompass/v1/loans/{loanId}/conditions/underwriting:
+    get:
+      operationId: listUnderwritingConditions
+      tags:
+        - Conditions
+      summary: List underwriting conditions
+      description: List the underwriting conditions tracked on a loan.
+      x-endpoint-status: modeled
+      parameters:
+        - $ref: '#/components/parameters/LoanId'
+      responses:
+        '200':
+          description: A list of underwriting conditions.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createUnderwritingCondition
+      tags:
+        - Conditions
+      summary: Create an underwriting condition
+      x-endpoint-status: modeled
+      parameters:
+        - $ref: '#/components/parameters/LoanId'
+      responses:
+        '201':
+          description: Condition created.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /encompass/v1/loans/{loanId}/conditions/underwriting/{conditionId}:
+    patch:
+      operationId: updateUnderwritingCondition
+      tags:
+        - Conditions
+      summary: Update an underwriting condition
+      description: Update or clear an underwriting condition.
+      x-endpoint-status: modeled
+      parameters:
+        - $ref: '#/components/parameters/LoanId'
+        - $ref: '#/components/parameters/ConditionId'
+      responses:
+        '200':
+          description: The updated condition.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /encompass/v1/users:
+    get:
+      operationId: listUsers
+      tags:
+        - Users
+      summary: List Encompass users
+      description: List the internal Encompass users in the lender's instance.
+      x-endpoint-status: modeled
+      parameters:
+        - name: start
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of users.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createUser
+      tags:
+        - Users
+      summary: Create an Encompass user
+      x-endpoint-status: modeled
+      responses:
+        '201':
+          description: User created.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /encompass/v1/users/{userId}:
+    get:
+      operationId: getUser
+      tags:
+        - Users
+      summary: Retrieve an Encompass user
+      x-endpoint-status: modeled
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      responses:
+        '200':
+          description: The user.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    patch:
+      operationId: updateUser
+      tags:
+        - Users
+      summary: Update an Encompass user
+      x-endpoint-status: modeled
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      responses:
+        '200':
+          description: The updated user.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /webhook/v1/subscriptions:
+    get:
+      operationId: listWebhookSubscriptions
+      tags:
+        - Webhooks
+      summary: Get all subscriptions
+      description: List all webhook subscriptions for the instance.
+      x-endpoint-status: confirmed
+      responses:
+        '200':
+          description: A list of subscriptions.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createWebhookSubscription
+      tags:
+        - Webhooks
+      summary: Create a subscription
+      description: >-
+        Subscribe to resource events (for example loan.created, loan.updated,
+        loan.deleted, loan.locked, loan.unlocked) delivered to an HTTPS endpoint.
+      x-endpoint-status: confirmed
+      responses:
+        '201':
+          description: Subscription created.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /webhook/v1/subscriptions/{id}:
+    get:
+      operationId: getWebhookSubscription
+      tags:
+        - Webhooks
+      summary: Get a subscription
+      x-endpoint-status: confirmed
+      parameters:
+        - $ref: '#/components/parameters/SubscriptionId'
+      responses:
+        '200':
+          description: The subscription.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    put:
+      operationId: updateWebhookSubscription
+      tags:
+        - Webhooks
+      summary: Update a subscription
+      x-endpoint-status: confirmed
+      parameters:
+        - $ref: '#/components/parameters/SubscriptionId'
+      responses:
+        '200':
+          description: The updated subscription.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: deleteWebhookSubscription
+      tags:
+        - Webhooks
+      summary: Delete a subscription
+      x-endpoint-status: confirmed
+      parameters:
+        - $ref: '#/components/parameters/SubscriptionId'
+      responses:
+        '204':
+          description: Subscription deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /webhook/v1/resources:
+    get:
+      operationId: listWebhookResources
+      tags:
+        - Webhooks
+      summary: Get all resources
+      description: List the resource types available for webhook subscriptions.
+      x-endpoint-status: confirmed
+      responses:
+        '200':
+          description: A list of resources.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /webhook/v1/resources/{id}/events:
+    get:
+      operationId: getWebhookResourceEvents
+      tags:
+        - Webhooks
+      summary: Get resource events
+      description: List the events available for a given webhook resource.
+      x-endpoint-status: confirmed
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        '200':
+          description: A list of resource events.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /webhook/v1/events:
+    get:
+      operationId: listWebhookEvents
+      tags:
+        - Webhooks
+      summary: Get all events
+      description: Query the history of webhook events delivered to your subscriptions.
+      x-endpoint-status: confirmed
+      responses:
+        '200':
+          description: A list of events.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /webhook/v1/events/{id}:
+    get:
+      operationId: getWebhookEvent
+      tags:
+        - Webhooks
+      summary: Get an event
+      x-endpoint-status: confirmed
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The event.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+components:
+  securitySchemes:
+    oAuth2:
+      type: oauth2
+      description: >-
+        OAuth 2.0 client credentials / authorization code issued per Encompass instance.
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.elliemae.com/oauth2/v1/token
+          scopes: {}
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    LoanId:
+      name: loanId
+      in: path
+      required: true
+      description: The loan GUID.
+      schema:
+        type: string
+    ApplicationId:
+      name: applicationId
+      in: path
+      required: true
+      description: The borrower pair (application) identifier.
+      schema:
+        type: string
+    ContactId:
+      name: contactId
+      in: path
+      required: true
+      description: The contact identifier.
+      schema:
+        type: string
+    AttachmentId:
+      name: attachmentId
+      in: path
+      required: true
+      description: The eFolder attachment identifier.
+      schema:
+        type: string
+    MilestoneId:
+      name: milestoneId
+      in: path
+      required: true
+      description: The milestone identifier.
+      schema:
+        type: string
+    ConditionId:
+      name: conditionId
+      in: path
+      required: true
+      description: The condition identifier.
+      schema:
+        type: string
+    UserId:
+      name: userId
+      in: path
+      required: true
+      description: The Encompass user identifier.
+      schema:
+        type: string
+    SubscriptionId:
+      name: id
+      in: path
+      required: true
+      description: The webhook subscription identifier.
+      schema:
+        type: string
+    ResourceId:
+      name: id
+      in: path
+      required: true
+      description: The webhook resource identifier.
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid OAuth 2.0 bearer token.
+    NotFound:
+      description: The requested resource was not found.
+  schemas:
+    Loan:
+      type: object
+      description: An Encompass loan file. The full data model is large and persona-scoped.
+      properties:
+        id:
+          type: string
+          description: The loan GUID.
+        loanNumber:
+          type: string
+        loanFolder:
+          type: string
+        applications:
+          type: array
+          items:
+            type: object

@@ -1,0 +1,32 @@
+{
+  "provider": "encompass",
+  "sources": [
+    "encompass-authentication-api-openapi.yml",
+    "encompass-borrower-pairs-api-openapi.yml",
+    "encompass-conditions-api-openapi.yml",
+    "encompass-contacts-api-openapi.yml",
+    "encompass-efolder-api-openapi.yml",
+    "encompass-loan-management-api-openapi.yml",
+    "encompass-loan-pipeline-api-openapi.yml",
+    "encompass-milestones-api-openapi.yml",
+    "encompass-users-api-openapi.yml",
+    "encompass-webhooks-api-openapi.yml"
+  ],
+  "outputs": [
+    "encompass-authentication-api-openapi.yml",
+    "encompass-borrower-pairs-api-openapi.yml",
+    "encompass-conditions-api-openapi.yml",
+    "encompass-contacts-api-openapi.yml",
+    "encompass-efolder-api-openapi.yml",
+    "encompass-loan-management-api-openapi.yml",
+    "encompass-loan-pipeline-api-openapi.yml",
+    "encompass-milestones-api-openapi.yml",
+    "encompass-users-api-openapi.yml",
+    "encompass-webhooks-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
