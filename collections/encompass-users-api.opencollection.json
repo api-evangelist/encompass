@@ -1,0 +1,101 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Encompass Developer Connect Authentication Users API",
+    "version": "2026-07-04"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://api.elliemae.com/oauth2/v1/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Encompass users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elliemae.com/encompass/v1/users",
+            "params": [
+              {
+                "name": "start",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List the internal Encompass users in the lender's instance."
+        },
+        {
+          "info": {
+            "name": "Create an Encompass user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elliemae.com/encompass/v1/users"
+          },
+          "docs": "Create an Encompass user"
+        },
+        {
+          "info": {
+            "name": "Retrieve an Encompass user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elliemae.com/encompass/v1/users/:userId",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The Encompass user identifier."
+              }
+            ]
+          },
+          "docs": "Retrieve an Encompass user"
+        },
+        {
+          "info": {
+            "name": "Update an Encompass user",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.elliemae.com/encompass/v1/users/:userId",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The Encompass user identifier."
+              }
+            ]
+          },
+          "docs": "Update an Encompass user"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

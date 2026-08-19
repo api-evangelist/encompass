@@ -1,0 +1,141 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Encompass Developer Connect Authentication Loan Management API",
+    "version": "2026-07-04"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://api.elliemae.com/oauth2/v1/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Loan Management",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a loan",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elliemae.com/encompass/v3/loans"
+          },
+          "docs": "Create a new Encompass loan file, optionally from a loan template set."
+        },
+        {
+          "info": {
+            "name": "Retrieve a loan",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elliemae.com/encompass/v3/loans/:loanId",
+            "params": [
+              {
+                "name": "loanId",
+                "value": "",
+                "type": "path",
+                "description": "The loan GUID."
+              },
+              {
+                "name": "entities",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of loan entities to include in the response."
+              }
+            ]
+          },
+          "docs": "Retrieve a loan file and its data by loan GUID."
+        },
+        {
+          "info": {
+            "name": "Update a loan",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.elliemae.com/encompass/v3/loans/:loanId",
+            "params": [
+              {
+                "name": "loanId",
+                "value": "",
+                "type": "path",
+                "description": "The loan GUID."
+              }
+            ]
+          },
+          "docs": "Write values to loan data fields. Supports append/replace of collections."
+        },
+        {
+          "info": {
+            "name": "Delete a loan",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.elliemae.com/encompass/v3/loans/:loanId",
+            "params": [
+              {
+                "name": "loanId",
+                "value": "",
+                "type": "path",
+                "description": "The loan GUID."
+              }
+            ]
+          },
+          "docs": "Delete a loan file."
+        },
+        {
+          "info": {
+            "name": "Retrieve UCD field definitions for a loan",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elliemae.com/encompass/v3/loans/:loanId/ucdFields",
+            "params": [
+              {
+                "name": "loanId",
+                "value": "",
+                "type": "path",
+                "description": "The loan GUID."
+              }
+            ]
+          },
+          "docs": "Retrieve Uniform Closing Dataset (UCD) field definitions for a loan."
+        },
+        {
+          "info": {
+            "name": "Move a loan to a folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.elliemae.com/encompass/v1/loans/:loanId/moveToFolder",
+            "params": [
+              {
+                "name": "loanId",
+                "value": "",
+                "type": "path",
+                "description": "The loan GUID."
+              }
+            ]
+          },
+          "docs": "Move a loan file into a different loan folder."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,117 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Encompass Developer Connect Authentication Borrower Pairs API",
+    "version": "2026-07-04"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://api.elliemae.com/oauth2/v1/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Borrower Pairs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List borrower pairs (applications)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elliemae.com/encompass/v3/loans/:loanId/applications",
+            "params": [
+              {
+                "name": "loanId",
+                "value": "",
+                "type": "path",
+                "description": "The loan GUID."
+              }
+            ]
+          },
+          "docs": "List the borrower/co-borrower application entities (borrower pairs) on a loan."
+        },
+        {
+          "info": {
+            "name": "Create a borrower pair",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elliemae.com/encompass/v3/loans/:loanId/applications",
+            "params": [
+              {
+                "name": "loanId",
+                "value": "",
+                "type": "path",
+                "description": "The loan GUID."
+              }
+            ]
+          },
+          "docs": "Add a new borrower pair (application) to a loan."
+        },
+        {
+          "info": {
+            "name": "Retrieve a borrower pair",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elliemae.com/encompass/v3/loans/:loanId/applications/:applicationId",
+            "params": [
+              {
+                "name": "loanId",
+                "value": "",
+                "type": "path",
+                "description": "The loan GUID."
+              },
+              {
+                "name": "applicationId",
+                "value": "",
+                "type": "path",
+                "description": "The borrower pair (application) identifier."
+              }
+            ]
+          },
+          "docs": "Retrieve a borrower pair"
+        },
+        {
+          "info": {
+            "name": "Delete a borrower pair",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.elliemae.com/encompass/v3/loans/:loanId/applications/:applicationId",
+            "params": [
+              {
+                "name": "loanId",
+                "value": "",
+                "type": "path",
+                "description": "The loan GUID."
+              },
+              {
+                "name": "applicationId",
+                "value": "",
+                "type": "path",
+                "description": "The borrower pair (application) identifier."
+              }
+            ]
+          },
+          "docs": "Delete a borrower pair"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

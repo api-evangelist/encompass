@@ -1,0 +1,111 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Encompass Developer Connect Authentication Contacts API",
+    "version": "2026-07-04"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://api.elliemae.com/oauth2/v1/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Contacts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List borrower contacts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elliemae.com/encompass/v1/borrowerContacts"
+          },
+          "docs": "List consumer (borrower) contacts in the contact database."
+        },
+        {
+          "info": {
+            "name": "Create a borrower contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elliemae.com/encompass/v1/borrowerContacts"
+          },
+          "docs": "Create a borrower contact"
+        },
+        {
+          "info": {
+            "name": "Retrieve a borrower contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elliemae.com/encompass/v1/borrowerContacts/:contactId",
+            "params": [
+              {
+                "name": "contactId",
+                "value": "",
+                "type": "path",
+                "description": "The contact identifier."
+              }
+            ]
+          },
+          "docs": "Retrieve a borrower contact"
+        },
+        {
+          "info": {
+            "name": "Update a borrower contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.elliemae.com/encompass/v1/borrowerContacts/:contactId",
+            "params": [
+              {
+                "name": "contactId",
+                "value": "",
+                "type": "path",
+                "description": "The contact identifier."
+              }
+            ]
+          },
+          "docs": "Update a borrower contact"
+        },
+        {
+          "info": {
+            "name": "List business contacts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elliemae.com/encompass/v1/businessContacts"
+          },
+          "docs": "List business (service provider / vendor) contacts."
+        },
+        {
+          "info": {
+            "name": "Create a business contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elliemae.com/encompass/v1/businessContacts"
+          },
+          "docs": "Create a business contact"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

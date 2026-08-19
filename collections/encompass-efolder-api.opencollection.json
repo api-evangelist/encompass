@@ -1,0 +1,111 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Encompass Developer Connect Authentication eFolder API",
+    "version": "2026-07-04"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://api.elliemae.com/oauth2/v1/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "eFolder",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List eFolder documents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elliemae.com/encompass/v3/loans/:loanId/documents",
+            "params": [
+              {
+                "name": "loanId",
+                "value": "",
+                "type": "path",
+                "description": "The loan GUID."
+              }
+            ]
+          },
+          "docs": "List the documents (placeholders) in a loan's eFolder."
+        },
+        {
+          "info": {
+            "name": "Create an eFolder document",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elliemae.com/encompass/v3/loans/:loanId/documents",
+            "params": [
+              {
+                "name": "loanId",
+                "value": "",
+                "type": "path",
+                "description": "The loan GUID."
+              }
+            ]
+          },
+          "docs": "Create a document placeholder in a loan's eFolder."
+        },
+        {
+          "info": {
+            "name": "List eFolder attachments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elliemae.com/encompass/v3/loans/:loanId/attachments",
+            "params": [
+              {
+                "name": "loanId",
+                "value": "",
+                "type": "path",
+                "description": "The loan GUID."
+              }
+            ]
+          },
+          "docs": "List the attachments in a loan's eFolder. V3 returns cloud-storage URLs for uploading and retrieving attachment media. (Several v1 attachment endpoints are being deprecated in favor of v3.)"
+        },
+        {
+          "info": {
+            "name": "Retrieve an eFolder attachment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elliemae.com/encompass/v3/loans/:loanId/attachments/:attachmentId",
+            "params": [
+              {
+                "name": "loanId",
+                "value": "",
+                "type": "path",
+                "description": "The loan GUID."
+              },
+              {
+                "name": "attachmentId",
+                "value": "",
+                "type": "path",
+                "description": "The eFolder attachment identifier."
+              }
+            ]
+          },
+          "docs": "Retrieve an attachment's metadata and cloud-storage retrieval URL."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

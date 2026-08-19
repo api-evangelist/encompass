@@ -1,0 +1,79 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Encompass Developer Connect Authentication Loan Pipeline API",
+    "version": "2026-07-04"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://api.elliemae.com/oauth2/v1/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Loan Pipeline",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Query the loan pipeline",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elliemae.com/encompass/v3/loanPipeline",
+            "params": [
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Search for loans and loan fields on the pipeline using canonical field names and filter criteria (CanonicalName, Value, MatchType, Terms, Operator, Precision, Include). Supports cursor-based pagination via the Cursor and Start/Limit query parameters."
+        },
+        {
+          "info": {
+            "name": "Create a pipeline cursor",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elliemae.com/encompass/v3/loanPipeline/cursor"
+          },
+          "docs": "Create a cursor for a pipeline report to page through large result sets."
+        },
+        {
+          "info": {
+            "name": "Get canonical field names",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elliemae.com/encompass/v3/loanPipeline/canonicalNames"
+          },
+          "docs": "Retrieve the list of canonical (queryable) field names for the pipeline."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

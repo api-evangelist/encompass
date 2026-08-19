@@ -1,0 +1,92 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Encompass Developer Connect Authentication Milestones API",
+    "version": "2026-07-04"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://api.elliemae.com/oauth2/v1/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Milestones",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List loan milestones",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elliemae.com/encompass/v3/loans/:loanId/milestones",
+            "params": [
+              {
+                "name": "loanId",
+                "value": "",
+                "type": "path",
+                "description": "The loan GUID."
+              }
+            ]
+          },
+          "docs": "List the milestones marking a loan's progress through origination."
+        },
+        {
+          "info": {
+            "name": "Update / complete a milestone",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.elliemae.com/encompass/v3/loans/:loanId/milestones/:milestoneId",
+            "params": [
+              {
+                "name": "loanId",
+                "value": "",
+                "type": "path",
+                "description": "The loan GUID."
+              },
+              {
+                "name": "milestoneId",
+                "value": "",
+                "type": "path",
+                "description": "The milestone identifier."
+              }
+            ]
+          },
+          "docs": "Finish or update a milestone and its assigned associate."
+        },
+        {
+          "info": {
+            "name": "List loan associates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elliemae.com/encompass/v3/loans/:loanId/associates",
+            "params": [
+              {
+                "name": "loanId",
+                "value": "",
+                "type": "path",
+                "description": "The loan GUID."
+              }
+            ]
+          },
+          "docs": "List the associates (loan team members) assigned to a loan's milestones."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

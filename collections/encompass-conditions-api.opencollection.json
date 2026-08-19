@@ -1,0 +1,92 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Encompass Developer Connect Authentication Conditions API",
+    "version": "2026-07-04"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://api.elliemae.com/oauth2/v1/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Conditions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List underwriting conditions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elliemae.com/encompass/v1/loans/:loanId/conditions/underwriting",
+            "params": [
+              {
+                "name": "loanId",
+                "value": "",
+                "type": "path",
+                "description": "The loan GUID."
+              }
+            ]
+          },
+          "docs": "List the underwriting conditions tracked on a loan."
+        },
+        {
+          "info": {
+            "name": "Create an underwriting condition",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elliemae.com/encompass/v1/loans/:loanId/conditions/underwriting",
+            "params": [
+              {
+                "name": "loanId",
+                "value": "",
+                "type": "path",
+                "description": "The loan GUID."
+              }
+            ]
+          },
+          "docs": "Create an underwriting condition"
+        },
+        {
+          "info": {
+            "name": "Update an underwriting condition",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.elliemae.com/encompass/v1/loans/:loanId/conditions/underwriting/:conditionId",
+            "params": [
+              {
+                "name": "loanId",
+                "value": "",
+                "type": "path",
+                "description": "The loan GUID."
+              },
+              {
+                "name": "conditionId",
+                "value": "",
+                "type": "path",
+                "description": "The condition identifier."
+              }
+            ]
+          },
+          "docs": "Update or clear an underwriting condition."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
