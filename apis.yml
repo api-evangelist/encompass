@@ -235,6 +235,8 @@ apis:
   humanURL: https://developer.icemortgagetechnology.com/developer-connect/reference/loan-management
   baseURL: https://api.elliemae.com
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
@@ -259,6 +261,8 @@ apis:
   humanURL: https://developer.icemortgagetechnology.com/developer-connect/reference/loan-management
   baseURL: https://api.elliemae.com
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
