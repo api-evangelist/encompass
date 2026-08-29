@@ -11,6 +11,18 @@ description: Encompass is the dominant mortgage loan origination system (LOS), a
   and pricing, and event webhooks. Access is partner/tenant-gated (OAuth 2.0 credentials
   issued per Encompass instance by a super administrator), but the API reference is
   publicly documented at developer.icemortgagetechnology.com.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: enterprise
   onboarding: self-serve
