@@ -1,32 +1,38 @@
 {
   "provider": "encompass",
   "sources": [
-    "encompass-authentication-api-openapi.yml",
-    "encompass-borrower-pairs-api-openapi.yml",
-    "encompass-conditions-api-openapi.yml",
-    "encompass-contacts-api-openapi.yml",
-    "encompass-efolder-api-openapi.yml",
-    "encompass-loan-management-api-openapi.yml",
-    "encompass-loan-pipeline-api-openapi.yml",
-    "encompass-milestones-api-openapi.yml",
-    "encompass-users-api-openapi.yml",
-    "encompass-webhooks-api-openapi.yml"
+    "_original/encompass-openapi.yml"
   ],
   "outputs": [
     "encompass-authentication-api-openapi.yml",
     "encompass-borrower-pairs-api-openapi.yml",
     "encompass-conditions-api-openapi.yml",
     "encompass-contacts-api-openapi.yml",
-    "encompass-efolder-api-openapi.yml",
     "encompass-loan-management-api-openapi.yml",
     "encompass-loan-pipeline-api-openapi.yml",
     "encompass-milestones-api-openapi.yml",
     "encompass-users-api-openapi.yml",
-    "encompass-webhooks-api-openapi.yml"
+    "encompass-webhooks-api-openapi.yml",
+    "encompass-efolder-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "encompass-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "encompass-authentication-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "encompass-borrower-pairs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "encompass-conditions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "encompass-contacts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "encompass-efolder-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "encompass-loan-management-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "encompass-loan-pipeline-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "encompass-milestones-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "encompass-users-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "encompass-webhooks-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

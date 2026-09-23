@@ -1,13 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Encompass Developer Connect Authentication Milestones API
-  description: 'Encompass Developer Connect is the ICE Mortgage Technology (formerly Ellie Mae) REST API platform for the Encompass loan origination system (LOS). It lets partners and lenders configure, customize, and administer loan information and resources programmatically - loan manufacturing, loan pipeline, borrower pairs, contacts, eFolder documents and attachments, milestones, conditions, users, and event webhooks.
-
-
-    Access is partner/tenant-gated: every call is authenticated with an OAuth 2.0 bearer token issued for a specific Encompass instance. Credentials (Client ID and secret / API key) are provisioned in the developer portal and distributed by an Encompass user with the super administrator persona. The data and features a token can reach are governed by the caller''s assigned Encompass persona.
-
-
-    Versioning is path-based; v3 is current and v1/v2 are deprecated. This document grounds endpoints in the public API reference at developer.icemortgagetechnology.com. Endpoints tagged x-endpoint-status "confirmed" are read directly from the public reference; those tagged "modeled" follow Encompass''s documented, consistent path conventions but were authored behind the login-gated request builder and should be verified against the live reference before use.'
+  title: Encompass Developer Connect Milestones API
+  description: Encompass Developer Connect is the ICE Mortgage Technology (formerly Ellie Mae) REST API platform for the Encompass loan origination system (LOS).
   version: '2026-07-04'
   contact:
     name: ICE Mortgage Technology - Encompass Developer Connect
@@ -71,18 +65,18 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   parameters:
-    MilestoneId:
-      name: milestoneId
-      in: path
-      required: true
-      description: The milestone identifier.
-      schema:
-        type: string
     LoanId:
       name: loanId
       in: path
       required: true
       description: The loan GUID.
+      schema:
+        type: string
+    MilestoneId:
+      name: milestoneId
+      in: path
+      required: true
+      description: The milestone identifier.
       schema:
         type: string
   responses:
