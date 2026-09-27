@@ -322,6 +322,15 @@ common:
   url: rate-limits/encompass-rate-limits.yml
 - type: FinOps
   url: finops/encompass-finops.yml
+- type: DeveloperPortal
+  url: https://developer.icemortgagetechnology.com/
+- type: GitHubOrganization
+  url: https://github.com/ICEMortgageTechnology
+- type: Blog
+  url: https://developer.icemortgagetechnology.com/developer-connect/docs/blogs
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
+x-parent: intercontinental-exchange
+x-relationship: acquisition
+x-acquired: 2020

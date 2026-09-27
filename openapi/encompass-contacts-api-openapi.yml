@@ -93,6 +93,9 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid OAuth 2.0 bearer token.
   parameters:
     ContactId:
       name: contactId
@@ -101,9 +104,6 @@ components:
       description: The contact identifier.
       schema:
         type: string
-  responses:
-    Unauthorized:
-      description: Missing or invalid OAuth 2.0 bearer token.
   securitySchemes:
     oAuth2:
       type: oauth2

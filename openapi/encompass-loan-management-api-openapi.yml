@@ -120,10 +120,10 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   responses:
-    NotFound:
-      description: The requested resource was not found.
     Unauthorized:
       description: Missing or invalid OAuth 2.0 bearer token.
+    NotFound:
+      description: The requested resource was not found.
   parameters:
     LoanId:
       name: loanId

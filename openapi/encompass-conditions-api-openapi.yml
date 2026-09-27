@@ -62,6 +62,9 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid OAuth 2.0 bearer token.
   parameters:
     ConditionId:
       name: conditionId
@@ -77,9 +80,6 @@ components:
       description: The loan GUID.
       schema:
         type: string
-  responses:
-    Unauthorized:
-      description: Missing or invalid OAuth 2.0 bearer token.
   securitySchemes:
     oAuth2:
       type: oauth2
