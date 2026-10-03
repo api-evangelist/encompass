@@ -77,18 +77,18 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   parameters:
-    ApplicationId:
-      name: applicationId
-      in: path
-      required: true
-      description: The borrower pair (application) identifier.
-      schema:
-        type: string
     LoanId:
       name: loanId
       in: path
       required: true
       description: The loan GUID.
+      schema:
+        type: string
+    ApplicationId:
+      name: applicationId
+      in: path
+      required: true
+      description: The borrower pair (application) identifier.
       schema:
         type: string
   responses:

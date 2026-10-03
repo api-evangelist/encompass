@@ -119,11 +119,6 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid OAuth 2.0 bearer token.
-    NotFound:
-      description: The requested resource was not found.
   parameters:
     LoanId:
       name: loanId
@@ -132,6 +127,11 @@ components:
       description: The loan GUID.
       schema:
         type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid OAuth 2.0 bearer token.
+    NotFound:
+      description: The requested resource was not found.
   schemas:
     Loan:
       type: object

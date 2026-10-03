@@ -146,18 +146,18 @@ components:
     Unauthorized:
       description: Missing or invalid OAuth 2.0 bearer token.
   parameters:
-    SubscriptionId:
-      name: id
-      in: path
-      required: true
-      description: The webhook subscription identifier.
-      schema:
-        type: string
     ResourceId:
       name: id
       in: path
       required: true
       description: The webhook resource identifier.
+      schema:
+        type: string
+    SubscriptionId:
+      name: id
+      in: path
+      required: true
+      description: The webhook subscription identifier.
       schema:
         type: string
   securitySchemes:
