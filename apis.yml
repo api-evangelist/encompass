@@ -38,6 +38,9 @@ accessModel:
   generated: '2026-07-22'
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/encompass.png
+x-docs-platform: readme
+x-docs-platform-confidence: high
+x-docs-platform-checked: 2026-10-03
 tags:
 - Mortgage
 - Loan Origination
@@ -295,6 +298,9 @@ apis:
     url: >-
       https://developer.icemortgagetechnology.com/developer-connect/reference/efolder-attachment-1
 common:
+- type: CapabilityMap
+  url: capabilities/encompass-capability-edges.yml
+  name: Encompass Business Capability Map
 - type: ParentCompany
   url: https://apis.io/providers/intercontinental-exchange/
   name: Intercontinental Exchange
