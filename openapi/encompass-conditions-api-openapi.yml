@@ -63,18 +63,18 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   parameters:
-    LoanId:
-      name: loanId
-      in: path
-      required: true
-      description: The loan GUID.
-      schema:
-        type: string
     ConditionId:
       name: conditionId
       in: path
       required: true
       description: The condition identifier.
+      schema:
+        type: string
+    LoanId:
+      name: loanId
+      in: path
+      required: true
+      description: The loan GUID.
       schema:
         type: string
   responses:
