@@ -1,0 +1,36 @@
+slug: encompass
+provider: Encompass
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: Contacts
+  spec_file: encompass-contacts-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.7
+  evidence: GET /encompass/v1/borrowerContacts  listBorrowerContacts  List borrower contacts ... POST
+    /encompass/v1/businessContacts  createBusinessContact  Create a business contact
+  reason: CRUD over borrower and business contact records is a contact/customer master data surface, mapping
+    to Customer Data Management. Moderate confidence as the operations are generic contact records without
+    identity-resolution semantics.
+- tag: Webhooks
+  spec_file: encompass-webhooks-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.7
+  evidence: POST /webhook/v1/subscriptions  createWebhookSubscription  Create a subscription ... GET /webhook/v1/resources/{id}/events  getWebhookResourceEvents
+  reason: Operations manage the lifecycle of outbound event subscriptions plus discoverable resources
+    and event types, which is exactly Webhook & Event Subscription Management in the developer-platform
+    capability. Confidence held at 0.7 because such surfaces are also plain integration plumbing.
