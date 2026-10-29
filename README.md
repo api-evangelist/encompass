@@ -1,4 +1,4 @@
-# Encompass (encompass)
+# Encompass
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,222 +64,142 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Encompass is the dominant mortgage loan origination system (LOS), a product of **ICE Mortgage Technology** (formerly **Ellie Mae**, acquired by Intercontinental Exchange / ICE in 2020). Its developer program, **Encompass Developer Connect**, exposes REST APIs that let partners and lenders configure, customize, and administer loan information and resources programmatically — loan manufacturing, loan pipeline, borrower pairs, contacts, eFolder documents and attachments, milestones, conditions, users, and event webhooks.
+Encompass is the dominant mortgage loan origination system (LOS), a product of ICE Mortgage Technology (formerly Ellie Mae, acquired by Intercontinental Exchange / ICE in 2020). Its developer program, Encompass Developer Connect, exposes REST APIs that let partners and lenders configure, customize, and administer loan information and resources programmatically - loan manufacturing, loan pipeline, borrower pairs, contacts, eFolder documents and attachments, milestones, conditions, users, product and pricing, and event webhooks. Access is partner/tenant-gated (OAuth 2.0 credentials issued per Encompass instance by a super administrator), but the API reference is publicly documented at developer.icemortgagetechnology.com.
 
-Access is **partner/tenant-gated**: every call carries an OAuth 2.0 bearer token (`POST https://api.elliemae.com/oauth2/v1/token`) scoped to a specific Encompass instance, using a Client ID / secret / API key that a super-administrator persona provisions in the developer portal. The API reference is publicly browsable at [developer.icemortgagetechnology.com](https://developer.icemortgagetechnology.com/developer-connect/docs/welcome), though the interactive "try it" builder and actual calls require instance credentials. Versioning is path-based (v3 current; v1/v2 deprecated). The `api.elliemae.com` host still reflects the Ellie Mae lineage.
+**Areas:** Mortgage · Loan Origination · LOS · Fintech · ICE Mortgage Technology · Ellie Mae · Lending
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/encompass/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/encompass/refs/heads/main/apis.yml)
+## Encompass on APIs.io
 
-## Tags
+Everything profiled for Encompass is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/encompass/](https://apis.io/providers/encompass/)** — or go straight to one of the APIs or properties below.
 
-- Mortgage
-- Loan Origination
-- LOS
-- Fintech
-- ICE Mortgage Technology
-- Ellie Mae
-- Lending
+### APIs (10)
 
-## Timestamps
+- [Encompass Authentication API](https://apis.io/apis/encompass/encompass-authentication-api/) — OAuth 2.0 token issuance.
+- [Encompass Borrower Pairs API](https://apis.io/apis/encompass/encompass-borrower-pairs-api/) — Borrower/co-borrower application entities within a loan (modeled).
+- [Encompass Conditions API](https://apis.io/apis/encompass/encompass-conditions-api/) — Underwriting, preliminary, and post-closing conditions (modeled).
+- [Encompass Contacts API](https://apis.io/apis/encompass/encompass-contacts-api/) — Borrower (consumer) and business contacts (modeled).
+- [Encompass eFolder API](https://apis.io/apis/encompass/encompass-efolder-api/) — Documents and attachments in a loan's eFolder.
+- [Encompass Loan Management API](https://apis.io/apis/encompass/encompass-loan-management-api/) — Create, read, update, and delete Encompass loan files and loan data.
+- [Encompass Loan Pipeline API](https://apis.io/apis/encompass/encompass-loan-pipeline-api/) — Search loans and loan fields across the pipeline with cursor pagination.
+- [Encompass Milestones API](https://apis.io/apis/encompass/encompass-milestones-api/) — Loan workflow milestones and associates (modeled).
+- [Encompass Users API](https://apis.io/apis/encompass/encompass-users-api/) — Internal Encompass user administration (modeled).
+- [Encompass Webhooks API](https://apis.io/apis/encompass/encompass-webhooks-api/) — Event subscriptions, resources, events, and custom auth functions.
 
-- **Created:** 2026-07-04
-- **Modified:** 2026-07-04
+### Published properties
 
-## APIs
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-### Encompass Loan Management API
+#### Agentic access (1)
 
-Create, read, update, and delete Encompass loan files and read/write loan data fields between applications and Encompass, including moving loans between folders and retrieving UCD field definitions.
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- **Human URL:** [https://developer.icemortgagetechnology.com/developer-connect/reference/loan-management](https://developer.icemortgagetechnology.com/developer-connect/reference/loan-management)
-- **Base URL:** `https://api.elliemae.com`
+- [Encompass Agentic Access](https://apis.io/agentic-access/encompass/encompass-agentic-access/)
 
-#### Tags
+#### Collections (11)
 
-- Loans
-- Loan Data
-- Loan Manufacturing
+Postman and Open Collection request collections.
 
-#### Properties
+- [Encompass Developer Connect API](https://apis.io/collections/encompass/open-encompass/)
+- [Encompass Developer Connect Authentication API](https://apis.io/collections/encompass/open-encompass-authentication-api/)
+- [Encompass Developer Connect Authentication Borrower Pairs API](https://apis.io/collections/encompass/open-encompass-borrower-pairs-api/)
+- [Encompass Developer Connect Authentication Conditions API](https://apis.io/collections/encompass/open-encompass-conditions-api/)
+- [Encompass Developer Connect Authentication Contacts API](https://apis.io/collections/encompass/open-encompass-contacts-api/)
+- [Encompass Developer Connect Authentication eFolder API](https://apis.io/collections/encompass/open-encompass-efolder-api/)
+- [Encompass Developer Connect Authentication Loan Management API](https://apis.io/collections/encompass/open-encompass-loan-management-api/)
+- [Encompass Developer Connect Authentication Loan Pipeline API](https://apis.io/collections/encompass/open-encompass-loan-pipeline-api/)
+- [Encompass Developer Connect Authentication Milestones API](https://apis.io/collections/encompass/open-encompass-milestones-api/)
+- [Encompass Developer Connect Authentication Users API](https://apis.io/collections/encompass/open-encompass-users-api/)
+- [Encompass Developer Connect Authentication Webhooks API](https://apis.io/collections/encompass/open-encompass-webhooks-api/)
 
-- [Documentation](https://developer.icemortgagetechnology.com/developer-connect/docs/welcome)
-- [API Reference](https://developer.icemortgagetechnology.com/developer-connect/reference/loan-management)
-- [OpenAPI](openapi/encompass-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/encompass.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/encompass.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Security (2)
 
-### Encompass Loan Pipeline API
+Authentication, trust centre, and vulnerability disclosure.
 
-Search for loans and loan fields across the pipeline using canonical field names, filter criteria, and cursor-based pagination for large result sets.
+- [Encompass Authentication](https://apis.io/security/encompass/encompass-authentication/)
+- [Encompass Domain Security](https://apis.io/security/encompass/encompass-domain-security/)
 
-- **Human URL:** [https://developer.icemortgagetechnology.com/developer-connect/reference/loan-pipeline](https://developer.icemortgagetechnology.com/developer-connect/reference/loan-pipeline)
-- **Base URL:** `https://api.elliemae.com`
+#### OAuth scopes (1)
 
-#### Tags
+The permissions the API asks for.
 
-- Pipeline
-- Search
-- Reporting
+- [Encompass Scopes](https://apis.io/scopes/encompass/encompass-scopes/)
 
-#### Properties
+#### Plans and pricing (1)
 
-- [API Reference](https://developer.icemortgagetechnology.com/developer-connect/reference/loan-pipeline)
-- [OpenAPI](openapi/encompass-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/encompass.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/encompass.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Published plans, tiers and prices.
 
-### Encompass Borrower Pair & Applications API
+- [Encompass Plans Pricing](https://apis.io/plans/encompass/encompass-plans-pricing/)
 
-Manage borrower pairs (applications) within a loan file — the borrower/co-borrower application entities that carry each borrower's data on a loan. *(Modeled from documented path conventions.)*
+#### Rate limits (1)
 
-- **Human URL:** [https://developer.icemortgagetechnology.com/developer-connect/reference/loan-management](https://developer.icemortgagetechnology.com/developer-connect/reference/loan-management)
-- **Base URL:** `https://api.elliemae.com`
+Published request limits.
 
-#### Tags
+- [Encompass Rate Limits](https://apis.io/rate-limits/encompass/encompass-rate-limits/)
 
-- Borrowers
-- Applications
-- Borrower Pairs
+#### FinOps (1)
 
-#### Properties
+What the API costs to run, by operation.
 
-- [API Reference](https://developer.icemortgagetechnology.com/developer-connect/reference/loan-management)
-- [OpenAPI](openapi/encompass-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/encompass.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/encompass.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Encompass Finops](https://apis.io/finops/encompass/encompass-finops/)
 
-### Encompass Contacts API
+## Where to find this API
 
-Manage borrower (consumer) contacts and business (service provider / vendor) contacts, including notes and groupings. *(Modeled from documented path conventions.)*
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-- **Human URL:** [https://developer.icemortgagetechnology.com/developer-connect/reference/browse-apis](https://developer.icemortgagetechnology.com/developer-connect/reference/browse-apis)
-- **Base URL:** `https://api.elliemae.com`
-
-#### Tags
-
-- Contacts
-- Borrower Contacts
-- Business Contacts
-
-#### Properties
-
-- [API Reference](https://developer.icemortgagetechnology.com/developer-connect/reference/browse-apis)
-- [OpenAPI](openapi/encompass-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/encompass.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/encompass.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Encompass eFolder Documents & Attachments API
-
-Manage documents, attachments, and comments in a loan's eFolder — list and create document placeholders, and upload/retrieve attachments via cloud-storage URLs. V3 is current; several v1 attachment endpoints are being deprecated.
-
-- **Human URL:** [https://developer.icemortgagetechnology.com/developer-connect/reference/efolder-document-1](https://developer.icemortgagetechnology.com/developer-connect/reference/efolder-document-1)
-- **Base URL:** `https://api.elliemae.com`
-
-#### Tags
-
-- Documents
-- eFolder
-- Attachments
-
-#### Properties
-
-- [API Reference (Documents)](https://developer.icemortgagetechnology.com/developer-connect/reference/efolder-document-1)
-- [API Reference (Attachments)](https://developer.icemortgagetechnology.com/developer-connect/reference/efolder-attachment-1)
-- [OpenAPI](openapi/encompass-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/encompass.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/encompass.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Encompass Milestones & Associates API
-
-Read and manage the milestones that mark a loan's progress through origination, complete/finish milestones, and assign the associates responsible at each stage. *(Modeled from documented path conventions.)*
-
-- **Human URL:** [https://developer.icemortgagetechnology.com/developer-connect/reference/browse-apis](https://developer.icemortgagetechnology.com/developer-connect/reference/browse-apis)
-- **Base URL:** `https://api.elliemae.com`
-
-#### Tags
-
-- Milestones
-- Workflow
-- Associates
-
-#### Properties
-
-- [API Reference](https://developer.icemortgagetechnology.com/developer-connect/reference/browse-apis)
-- [OpenAPI](openapi/encompass-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/encompass.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/encompass.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Encompass Conditions API
-
-Track and manage underwriting, preliminary, and post-closing conditions on a loan, including the modern Enhanced Conditions system. *(Modeled from documented path conventions.)*
-
-- **Human URL:** [https://developer.icemortgagetechnology.com/developer-connect/reference/browse-apis](https://developer.icemortgagetechnology.com/developer-connect/reference/browse-apis)
-- **Base URL:** `https://api.elliemae.com`
-
-#### Tags
-
-- Conditions
-- Underwriting
-- Tracking
-
-#### Properties
-
-- [API Reference](https://developer.icemortgagetechnology.com/developer-connect/reference/browse-apis)
-- [OpenAPI](openapi/encompass-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/encompass.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/encompass.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Encompass Users API
-
-Manage the internal Encompass users of a lender's instance — list, read, create, and update user accounts, personas, roles, and organization assignments. *(Modeled from documented path conventions.)*
-
-- **Human URL:** [https://developer.icemortgagetechnology.com/developer-connect/reference/browse-apis](https://developer.icemortgagetechnology.com/developer-connect/reference/browse-apis)
-- **Base URL:** `https://api.elliemae.com`
-
-#### Tags
-
-- Users
-- Identity
-- Administration
-
-#### Properties
-
-- [API Reference](https://developer.icemortgagetechnology.com/developer-connect/reference/browse-apis)
-- [OpenAPI](openapi/encompass-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/encompass.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/encompass.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Encompass Webhooks API
-
-Subscribe to Encompass resource events (loan created / updated / deleted / locked / unlocked and more), manage subscriptions, browse available resources and their events, query event history, and configure custom authentication for delivery. Push-based HTTP callbacks — **not** a bidirectional WebSocket.
-
-- **Human URL:** [https://developer.icemortgagetechnology.com/developer-connect/reference/browse-apis](https://developer.icemortgagetechnology.com/developer-connect/reference/browse-apis)
-- **Base URL:** `https://api.elliemae.com`
-
-#### Tags
-
-- Webhooks
-- Events
-- Subscriptions
-
-#### Properties
-
-- [API Reference](https://developer.icemortgagetechnology.com/developer-connect/reference/subscriptions)
-- [OpenAPI](openapi/encompass-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/encompass.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/encompass.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [GitHub Organization](https://github.com/api-evangelist/encompass-developer-connect)
-- [LinkedIn](https://www.linkedin.com/showcase/ice-mortgage-technology/)
 - [Website](https://www.icemortgagetechnology.com/)
 - [Documentation](https://developer.icemortgagetechnology.com/developer-connect/docs/welcome)
-- [Plans](plans/encompass-plans-pricing.yml)
-- [Rate Limits](rate-limits/encompass-rate-limits.yml)
-- [Fin Ops](finops/encompass-finops.yml)
+- [Blog](https://developer.icemortgagetechnology.com/developer-connect/docs/blogs)
+- [GitHub](https://github.com/api-evangelist/encompass-developer-connect)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 27.9** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 48.7 |
+| Contract governance | 0.0 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 32.1 |
+| Access clarity | 5.3 |
+
+**Agent readiness 23.3** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | negotiable (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 21.6** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/encompass/](https://apis.io/providers/encompass/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Encompass: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/encompass/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
